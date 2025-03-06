@@ -1,0 +1,44 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import '../styles/global.css';
+import { Gradient } from '../styles/Gradient.js'
+const { pageTitle } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <link rel="icon" href="/favicon.ico" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+        
+        <title>{pageTitle}</title>
+    </head>
+    <body>
+        <script>
+            import { Gradient } from '../styles/Gradient.js';
+            
+            if (typeof document !== 'undefined') {
+
+                document.addEventListener('DOMContentLoaded', () => {
+                const gradient = new Gradient();
+                gradient.initGradient('#gradient-canvas');
+              });
+            }
+          </script>
+          
+          <canvas id="gradient-canvas"></canvas>
+        <Header />
+        <slot />
+        <Footer />
+    </body>
+
+</html>
