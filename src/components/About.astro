@@ -1,0 +1,44 @@
+---
+import Socials from "./Socials.astro"
+---
+
+<div class="w-full max-w-6xl mx-auto">
+    <div class="flex flex-col lg:flex-row gap-12">
+        <div class="">
+            <img
+                src="../src/assets/Portrait.jpg"
+                alt="Răzvan Olariu"
+                class="hero-image w-3xs rounded-[36px] ml-24 mt-16 m-8"
+            />
+            <div class="hero-text">
+                <h1
+                    class="text-[#FFFFFF] text-6xl font-medium opacity-60 antialiasing drop-shadow-xl"
+                >
+                    Răzvan Olariu
+                </h1>
+                <h2 class="text-[#C1C1C1] text-4xl mt-1 mb-6 opacity-50">ZVIX</h2>
+                <Socials platform="github" username="zvix" />
+                <Socials platform="linkedin" username="razvan-olariu" />
+                <Socials platform="youtube" username="zvix" />
+                
+            </div>
+        </div>
+        <div class="w-full">
+            <h2 class="text-[#FFFFFF] text-4xl font-medium opacity-60 antialiasing drop-shadow-xl">
+                About Me
+            </h2>
+            <p class="text-[#C1C1C1] text-2xl mt-1 mb-6 opacity-50">
+                I'm a software engineer, writer, and creator. I love building
+                things and sharing what I learn with others.
+            </p>
+            <p class="text-[#C1C1C1] text-2xl mt-1 mb-6 opacity-50">
+                I'm currently working on a few projects, including a new book
+                and a course on web development.
+            </p>
+            <p class="text-[#C1C1C1] text-2xl mt-1 mb-6 opacity-50">
+                I'm always looking for new opportunities to collaborate and
+                learn from others. Feel free to reach out if you'd like to
+                connect!
+            </p>
+    </div>
+</div>

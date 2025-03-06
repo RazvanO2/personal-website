@@ -1,21 +1,88 @@
-<div class="mx-auto flex max-w-sm items-center justify-between nav_links">
-    <a href="/">Home</a>
-    <a href="/about">Projects</a>
-    <a href="/book-reviews">Book Reviews</a>
-    <a href="/blog">Blog</a>
-    <a href="/contact">Contact</a>
+<!-- Navbar.astro -->
+<div class="flex justify-center w-full p-4">
+    <nav class="backdrop-blur-md rounded-xl max-w-2xl w-auto mx-auto shadow-lg relative overflow-hidden nav-container">
+      <!-- Content with glass effect -->
+      <div class="flex flex-wrap justify-center items-center p-3 relative z-10">
+        <!-- Links with divider bars -->
+        <a href="/" class="nav-link">
+          <span>Home</span>
+          <div class="glow-overlay"></div>
+        </a>
+        
+        <div class="divider"></div>
+        
+        <a href="/projects" class="nav-link">
+          <span>Projects</span>
+          <div class="glow-overlay"></div>
+        </a>
+        
+        <div class="divider"></div>
+        
+        <a href="/book-reviews" class="nav-link">
+          <span>Book Reviews</span>
+          <div class="glow-overlay"></div>
+        </a>
+        
+        <div class="divider"></div>
+        
+        <a href="/blog" class="nav-link">
+          <span>Blog</span>
+          <div class="glow-overlay"></div>
+        </a>
+        
+        <div class="divider"></div>
+        
+        <a href="/contact" class="nav-link">
+          <span>Contact</span>
+          <div class="glow-overlay"></div>
+        </a>
+      </div>
+    </nav>
+  </div>
 
-</div>
 <style>
-    .nav_links {
-        display: flex;
-        justify-content: space-between;
-        padding: 1rem;
-        background-color: #f0f0f0;
-        opacity: 0.9;
+  .nav-container {
+    background-color: rgba(0, 0, 0, 0.25);
+    /* background-color: rgba(255, 255, 255, 0.05); */
+    border: 0.8px solid rgba(82, 82, 91, 0.2);
+
+    /* Shadow */
+    box-shadow: 0px 2px 8px rgba(255, 255, 255, 0.02);
+
+
+
+  }
+  
+  .nav-link {
+    color: #d4d4d8;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+    opacity: 0.8;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .nav-link:hover {
+    opacity: 0.9;
+    background-color: rgba(113, 113, 122, 0.15);
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.10);
+  }
+  
+  .nav-link:hover .glow-overlay {
+    opacity: 0;
+  }
+  
+  .divider {
+    height: 1.8rem;
+    border-right: 1px solid rgba(82, 82, 91, 0.5);
+    margin: 0 0.25rem;
+  }
+
+  @media (max-width: 640px) {
+    .nav-link {
+      padding: 0.3rem 0.5rem;
     }
-    .nav_links a {
-        text-decoration: none;
-        color: #333;
-    }
-</style>;
+  }
+
+</style>

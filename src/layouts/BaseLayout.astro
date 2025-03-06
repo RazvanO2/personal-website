@@ -1,9 +1,10 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import GradientCanvas from "../components/GradientCanvas.astro";
 import '../styles/global.css';
-import { Gradient } from '../styles/Gradient.js'
 const { pageTitle } = Astro.props;
+import { ViewTransitions } from 'astro:transitions';
 ---
 
 <!doctype html>
@@ -23,19 +24,7 @@ const { pageTitle } = Astro.props;
         <title>{pageTitle}</title>
     </head>
     <body>
-        <script>
-            import { Gradient } from '../styles/Gradient.js';
-            
-            if (typeof document !== 'undefined') {
-
-                document.addEventListener('DOMContentLoaded', () => {
-                const gradient = new Gradient();
-                gradient.initGradient('#gradient-canvas');
-              });
-            }
-          </script>
-          
-          <canvas id="gradient-canvas"></canvas>
+        <GradientCanvas client:load/>
         <Header />
         <slot />
         <Footer />
