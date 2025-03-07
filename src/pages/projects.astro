@@ -1,8 +1,57 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro"
-import Projects from "../components/Projects.astro"
+import CardStyles from "../components/CardStyles.astro"
+import ProjectCard from "../components/ProjectCard.astro"
 ---
 
 <BaseLayout pageTitle="Projects | Răzvan Olariu">
-    <Projects />
+    <CardStyles />
+
+<div class="w-full max-w-6xl mx-auto mt-10 mb-20 px-4 md:px-8">
+    <div class="flex flex-col gap-8">
+        <h2 class="text-[#FFFFFF] text-4xl font-medium opacity-60 antialiasing drop-shadow-xl text-center">
+            My Projects
+        </h2>
+        
+        <ProjectCard
+            title="Personal Website"
+            description="A modern portfolio website built with Astro and TailwindCSS. Features a responsive design with a beautiful animated gradient background."
+            technologies={["Astro", "TailwindCSS", "JavaScript"]}
+            liveLink="#"
+            sourceLink="#"
+        />
+        
+        <ProjectCard
+            title="AI Image Generator"
+            description="A machine learning-powered image generator that creates unique images based on text descriptions. Uses a fine-tuned diffusion model for high-quality results."
+            technologies={["React", "Node.js", "TensorFlow"]}
+            liveLink="#"
+            sourceLink="#"
+        />
+        
+        <ProjectCard
+            title="E-Commerce Platform"
+            description="A full-featured e-commerce platform with payment processing, inventory management, and an admin dashboard for tracking sales and user activity."
+            technologies={["Node.js", "Express", "MongoDB"]}
+            liveLink="#"
+            sourceLink="#"
+        />
+        
+        <ProjectCard
+            title="Weather Dashboard"
+            description="A responsive weather application with beautiful visualizations and 7-day forecasts. Features dark mode, location detection, and hourly predictions."
+            technologies={["JavaScript", "Chart.js", "OpenWeather API"]}
+            liveLink="#"
+            sourceLink="#"
+        />
+        
+        <ProjectCard
+            title="Task Management App"
+            description="A collaborative task management application that allows teams to organize projects, assign tasks, set deadlines, and track progress in real-time."
+            technologies={["Vue.js", "Firebase", "Vuetify"]}
+            liveLink="#"
+            sourceLink="#"
+        />
+    </div>
+</div>
 </BaseLayout>

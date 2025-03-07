@@ -1,38 +1,27 @@
 ---
 // src/components/About.astro
-import Socials from "./Socials.astro"
+import Socials from "./Socials.astro";
+import ProfileSection from "./ProfileSection.astro";
+import ExperienceCard from "./ExperienceCard.astro";
+import CourseCard from "./CourseCard.astro";
+import CardStyles from "./CardStyles.astro";
 ---
+
+<CardStyles />
 
 <div class="max-w-7xl mx-auto min-h-screen flex flex-col lg:flex-row">
     <!-- Left column (fixed) -->
-    <div class="lg:w-2/5 lg:fixed lg:h-screen flex flex-col justify-start items-center lg:items-center px-8 pt-8 lg:pt-48 pb-16">
-        <div class="profile-image-container mb-12 flex justify-center w-full">
-            <img
-                src="../src/assets/Portrait.jpg"
-                alt="Răzvan Olariu"
-                class="w-72 object-cover rounded-[36px] border-2 border-gray-700/30"
-            />
-        </div>
-        <div class="text-content mb-1 px-0">
-            <div class="flex justify-center">
-                <h1 class="text-[#FFFFFF] text-6xl whitespace-nowrap font-medium opacity-60 antialiased drop-shadow-xl">
-                    Răzvan Olariu
-                </h1>
-            </div>
-            <h2 class="text-[#C1C1C1] text-4xl mt-1 mb-2 opacity-50">ZVIX</h2>
-        </div>
-        <div class="social-links flex gap-3 w-72 justify-start mt-2">
-            <Socials platform="github" username="zvix" />
-            <Socials platform="linkedin" username="razvan-olariu" />
-            <Socials platform="youtube" username="zvix" />
-        </div>
-    </div>
+    <ProfileSection name="Răzvan Olariu" nickname="ZVIX" profileImage="../src/assets/Portrait.jpg">
+        <Socials platform="github" username="zvix" />
+        <Socials platform="linkedin" username="razvan-olariu" />
+        <Socials platform="youtube" username="zvix" />
+    </ProfileSection>
 
     <!-- Right column (scrollable) -->
     <div class="lg:w-3/5 lg:ml-auto py-12 px-8">
         <div class="about-section mb-16">
             <p class="text-[#FFFFFF] text-lg opacity-80 mb-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu tortor nisi. Ut quis ultricies eros, eget aliquam erat. Cras massa tellus, rhoncus vel ligula molestie, euismod sagittis elit. Maecenas vel enim eu nisi egestas dignissim.
+   
             </p>
             <p class="text-[#FFFFFF] text-lg opacity-80 mb-4">
                 Aenean consectetur malesuada nunc, quis imperdiet odio feugiat a. Curabitur a augue quam. Cras id libero fermentum, pulvinar augue nec, fermentum ex. Proin posuere auctor nisi a condimentum.
@@ -43,60 +32,98 @@ import Socials from "./Socials.astro"
         </div>
         
         <!-- Experience Section -->
-        <div class="experience-section">
+        <div class="experience-section mb-16">
             <h2 class="text-[#FFFFFF] text-2xl font-medium uppercase mb-8 opacity-80">Experience</h2>
+            <ExperienceCard 
+            title="IT Hardware/Software Specialist"
+            company="Freelance" 
+            duration="JAN 2015 - Present"
+            description={[
+                "Provided IT support services to small businesses and individuals, including hardware and software troubleshooting, network setup, and system maintenance.",
+                "Developed a custom PC building service, offering personalized builds based on client requirements.",
+                "Overclocked and optimized gaming PCs for clients, improving performance by up to 30%.",
+                "Repaired Phones and MacBooks, replacing screens, batteries, and other components."
+
+            ]}
+            skills={["PC Technician ", "Hardcore Overclocking" ,"Troubleshooting"]}
+        />
+            <ExperienceCard 
+                title="Web Content Developer"
+                company="Flanco"
+                duration="AUG 2023 - OCT 2023"
+                description={[
+                    "Developed and maintained the company's website by creating and updating product pages, ensuring that the content is accurate and up-to-date.",
+                    "Independently engineered two in-house tools using Python Selenium and Pandas, automating product data extraction and processing from manufacturer websites.",
+                    "These tools reduced task completion time by ~65%, saving approximately 20 hours per week.",
+                    "Left the position because I couldn't balance it with my studies."
+                ]}
+                skills={["HTML/CSS","JavaScript", "Python", "Web Scraping", "Data Processing"]}
+            />
             
-            <div class="experience-item mb-10">
-                <div class="flex justify-between items-start mb-3">
-                    <h3 class="text-[#FFFFFF] text-xl font-medium">Web Content Developer • Flanco</h3>
-                    <span class="text-[#C1C1C1] text-sm">AUG 2023 - OCT 2023</span>
-                </div>
-                <ul class="text-[#FFFFFF] opacity-70 space-y-2">
-                    <li>Developed and maintained the company's website by creating and updating product pages, ensuring that the content is accurate and up-to-date.</li>
-                    <li>Independently engineered two in-house tools using Selenium and Pandas, automating product data extraction and processing from manufacturer websites.</li>
-                    <li>These tools reduced task completion time by 70%, saving approximately 20 hours per week.</li>
-                </ul>
-                <div class="skills mt-4">
-                    <span class="inline-block px-4 py-2 backdrop-blur-md bg-black/20 border border-zinc-800/30 text-zinc-300 rounded-full text-sm mr-2 mb-2 hover:bg-black/30 transition-colors">Python</span>
-                </div>
-            </div>
+        </div>
+        
+        <!-- Education Section -->
+        <div class="education-section mb-16">
+            <h2 class="text-[#FFFFFF] text-2xl font-medium uppercase mb-8 opacity-80">Education</h2>
             
-            <div class="experience-item mb-10">
-                <div class="flex justify-between items-start mb-3">
-                    <h3 class="text-[#FFFFFF] text-xl font-medium">Frontend Developer • ABC Company</h3>
-                    <span class="text-[#C1C1C1] text-sm">JAN 2022 - JUL 2023</span>
-                </div>
-                <ul class="text-[#FFFFFF] opacity-70 space-y-2">
-                    <li>Developed responsive web applications using React and Tailwind CSS.</li>
-                    <li>Collaborated with design team to implement UI/UX improvements.</li>
-                    <li>Optimized website performance, improving load times by 40%.</li>
-                </ul>
-                <div class="skills mt-4">
-                    <span class="inline-block px-4 py-2 backdrop-blur-md bg-black/20 border border-zinc-800/30 text-zinc-300 rounded-full text-sm mr-2 mb-2 hover:bg-black/30 transition-colors">React</span>
-                    <span class="inline-block px-4 py-2 backdrop-blur-md bg-black/20 border border-zinc-800/30 text-zinc-300 rounded-full text-sm mr-2 mb-2 hover:bg-black/30 transition-colors">JavaScript</span>
-                    <span class="inline-block px-4 py-2 backdrop-blur-md bg-black/20 border border-zinc-800/30 text-zinc-300 rounded-full text-sm mr-2 mb-2 hover:bg-black/30 transition-colors">Tailwind</span>
-                </div>
+            <ExperienceCard 
+                title="Bachelor of Finance"
+                duration="2021 - 2024"
+                description={[
+                    "Specialized in Financial Engineering",
+                    "Thesis: \"Usage of Machine Learning Methods in portfolio optimization\"",
+                    "Thesis Grade: 9"
+                ]}
+            >
+                <p class="text-[#FFFFFF] opacity-70 mb-3">Bucharest University of Economic Studies</p>
+            </ExperienceCard>
+            
+            <ExperienceCard 
+                title="High School Diploma"
+                duration="2017 - 2021"
+                description={[
+                    "Natural Sciences and Mathematics Profile",
+                    "Participated in the National Olympiad of Information and Technology",
+                    "Ranked 44th out of 846 participants nationwide, placing in the top 5.2% of competitors."
+                ]}
+            >
+                <p class="text-[#FFFFFF] opacity-70 mb-3">Theoretical High School ”Dimitrie Bolintineanu”, Bucharest</p>
+            </ExperienceCard>
+        </div>
+        
+        <!-- Courses Section -->
+        <div class="courses-section mb-16">
+            <h2 class="text-[#FFFFFF] text-2xl font-medium uppercase mb-8 opacity-80">Courses & Certifications</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <CourseCard 
+                    title="Python 3 Deep Dive Part 1-4"
+                    provider="Udemy"
+                    year="2024-2025"
+                    description="Completed 4-course series covering Python basics, data structures, Iterators/Generators, JSON, object-oriented programming, and more."
+                />
+                
+                <CourseCard 
+                    title="iOS & Swift - The Complete iOS App Development Bootcamp"
+                    provider="Dr. Angela Yu"
+                    year="2022"
+                    description="Learned iOS app development, including Swift, Xcode, UIKit, and SwiftUI, by building 10+ apps."
+                />
+                
+                <CourseCard 
+                    title="AWS Cloud Practitioner"
+                    provider="Amazon Web Services"
+                    year="2021"
+                    description="Certified in AWS fundamentals, cloud concepts, security, and AWS core services."
+                />
+                
+                <CourseCard 
+                    title="UI/UX Design Fundamentals"
+                    provider="Udemy"
+                    year="2020"
+                    description="Learned principles of user-centered design, wireframing, prototyping, and usability testing."
+                />
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    @media (min-width: 1024px) {
-        .lg\:fixed {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: auto;
-            width: 40%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        
-        .lg\:ml-auto {
-            margin-left: 40%;
-        }
-    }
-</style>
