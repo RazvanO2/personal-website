@@ -9,51 +9,37 @@ const icons = {
   linkedin: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>',
   instagram: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>',
   facebook: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>',
-  // Add more platforms as needed
 };
 
-// Default icon for platforms not in our list
-const defaultIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>';
-
 // Get the icon for this platform
-const icon = icons[platform] || defaultIcon;
+const icon = icons[platform];
 ---
 
-<a href={`https://www.${platform}.com/${username}`} class="social-link">
-  <span class="icon antialiased" set:html={icon}></span>
-  <span class="platform-name">{platform}</span>
+<a href={`https://www.${platform}.com/${username}`} class="social-link" aria-label={`${platform} profile`}>
+  <span class="icon" set:html={icon}></span>
 </a>
 
 <style>
   .social-link {
     display: inline-flex;
     align-items: center;
-    padding: 0.5rem 1rem;
-    color: black;
-    opacity: 0.8;
-    background-color: rgba(0, 0, 0, 0.25);
-    text-decoration: none;
-    border-radius: 8px;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-    transition: background-color 0.2s, transform 0.2s;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    color: #d4d4d8;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    transition: all 0.2s ease;
   }
 
   .social-link:hover {
-    opacity: 0.9;
-    background-color: rgba(113, 113, 122, 0.15);
-    text-shadow: 0 0 1px rgba(255, 255, 255, 0.10);
     transform: translateY(-2px);
+    background-color: rgba(113, 113, 122, 0.3);
   }
 
   .icon {
-    display: inline-flex;
-    color:#d4d4d8;
-    margin-right: 0.5rem;
-  }
-
-  .platform-name {
-    color:#d4d4d8;
-    font-weight: 500;
+    display: flex;
+    color: #d4d4d8;
+    opacity: 0.8;
   }
 </style>
