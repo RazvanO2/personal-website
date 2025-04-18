@@ -1,0 +1,112 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/projects/ProjectCard.astro";
+
+import PersonalWebsite from "../assets/projects/personal_website.png";
+import HouseholdImage from "../assets/projects/household_electricity_forecasting.png";
+import LicentaImage from "../assets/projects/licenta.png";
+import weatherAppImage from "../assets/projects/weather.png";
+import homelab from "../assets/projects/homelab.jpg";
+---
+
+<BaseLayout pageTitle="Projects | Răzvan Olariu">
+  <div class="w-full max-w-6xl mx-auto mt-16 mb-24 px-4 md:px-8">
+    <div class="flex flex-col gap-2 mb-12 text-center">
+      <h1
+        class="text-[#FFFFFF] text-5xl font-bold opacity-90 antialiased tracking-tight"
+      >
+        My Projects
+      </h1>
+      <p class="text-zinc-400 mt-3 max-w-2xl mx-auto">
+        A collection of my recent work and personal projects. Each project
+        represents unique challenges I've tackled and skills I've developed.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-10">
+      <ProjectCard
+        title="Application of Machine Learning Methods in Financial Portfolio Optimization"
+        description="Created a machine learning model for financial portfolio optimization that balances risk and return. The project implements gradient boosting algorithms to predict asset performance and construct optimal allocation strategies."
+        technologies={[
+          "Python",
+          "Pandas",
+          "Scikit-learn",
+          "Financial Analysis",
+        ]}
+        isDataScienceProject={true}
+        imageUrl={LicentaImage}
+      />
+      <ProjectCard
+        title="Homelab Server"
+        description="I snagged a budget-friendly HP Elitedesk for just €110 with an i7 8700 processor and 16GB RAM, then upgraded it to 48GB RAM with a 2TB HDD and 500GB SSD. I've transformed it into a versatile homelab server running Proxmox and Docker, hosting multiple virtual machines and containers. My setup now runs several useful services including my personal website, Pi-hole for ad-blocking, a Wireguard VPN server for secure access, Immich for keeping my photos safely backed up, and TrueNAS for all my file storage needs."
+        technologies={[
+          "Linux",
+          "Networking",
+          "cron-jobs",
+          "Proxmox",
+          "Docker",
+          "TrueNAS",
+        ]}
+        liveLink="#"
+        sourceLink="#"
+        blogPostLink="/blog/my-journey-building-a-homelab-server/"
+        isDataScienceProject={false}
+        imageUrl={homelab}
+      />
+      <ProjectCard
+        title="Electricity Usage Forecasting"
+        description="Developed a time-series forecasting model to predict household electricity consumption using demographic data and historical usage patterns. Computed the missing data using various methods. The model analyzes variables like household size, income, and previous usage to provide accurate forecasts."
+        technologies={[
+          "Python",
+          "Pandas",
+          "Scikit-learn",
+          "Time Series Analysis",
+        ]}
+        notebookLink="https://github.com/RazvanO2/Household_Electricity_Forecasting/blob/main/Household_Electricity_Forecasting_Razvan-Gabriel_Olariu.ipynb"
+        isDataScienceProject={true}
+        imageUrl={HouseholdImage}
+      />
+
+      <ProjectCard
+        title="WeatherNow App"
+        description="A responsive weather application with beautiful visualizations and 7-day forecasts. Features dark mode, location detection, and hourly predictions with detailed atmospheric conditions tracking."
+        technologies={[
+          "JavaScript",
+          "Chart.js",
+          "OpenWeather API",
+          "Geolocation",
+        ]}
+        liveLink="#"
+        sourceLink="https://github.com/RazvanO2/weatherNow"
+        imageUrl={weatherAppImage}
+      />
+
+      <ProjectCard
+        title="Personal Website"
+        description="A modern portfolio website built with Astro and TailwindCSS. Features a responsive design with a beautiful animated gradient background, interactive hover cards, a book review section showcasing books I've read, and a blog where I share my thoughts on technology and finance."
+        technologies={["Astro.js", "TailwindCSS", "TypeScript"]}
+        liveLink="#"
+        sourceLink="#"
+        imageUrl={PersonalWebsite}
+      />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Add a subtle fade-in animation for projects */
+  .grid {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SocialMediaButton from "../components/about/SocialMediaButton.astro";
+import BaseCard from "../components/ui/BaseCard.astro";
+---
+
+<BaseLayout pageTitle="Contact | Răzvan Olariu">
+  <div class="max-w-3xl mx-auto min-h-screen px-6 py-8 flex items-start justify-center mt-8">
+    <!-- Centered Contact Info Card -->
+    <BaseCard className="w-full p-8 md:p-10">
+      <h1 class="text-[#FFFFFF] text-4xl font-bold mb-8 text-center opacity-90">Contact Me</h1>
+      
+      <div class="space-y-8">
+        <div class="contact-item">
+          <h3 class="text-[#FFFFFF] text-lg font-medium mb-2 opacity-90">Email</h3>
+          <a href="mailto:contact@razvanolariu.com" class="text-zinc-300 hover:text-white transition-colors opacity-80">
+            contact@razvanolariu.com
+          </a>
+        </div>
+        
+        <div class="contact-item">
+          <h3 class="text-[#FFFFFF] text-lg font-medium mb-2 opacity-90">Location</h3>
+          <p class="text-zinc-300 opacity-80">Bucharest, Romania</p>
+        </div>
+        
+        <div class="contact-item">
+          <h3 class="text-[#FFFFFF] text-lg font-medium mb-2 opacity-90">Available Through</h3>
+          <p class="text-zinc-300 opacity-80">Email, LinkedIn, or GitHub</p>
+        </div>
+        
+        <div class="contact-item">
+          <h3 class="text-[#FFFFFF] text-lg font-medium mb-4 opacity-90">Connect</h3>
+          <div class="social-links flex gap-3 justify-center mt-2">
+            <SocialMediaButton platform="github" username="RazvanO2" />
+            <SocialMediaButton platform="linkedin" username="razvan-olariu" />
+            <SocialMediaButton platform="youtube" username="zvix" />
+          </div>
+        </div>
+      </div>
+    </BaseCard>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-item {
+    text-align: center;
+  }
+</style>

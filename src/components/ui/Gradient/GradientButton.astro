@@ -1,0 +1,295 @@
+<div class="gradient-controls mt-4">
+  <h3 class="text-[#FFFFFF] text-lg mb-3 opacity-70">Background Theme</h3>
+  <div class="social-links flex gap-3">
+    <button id="cycle-button" class="social-link" aria-label="Cycle gradient colors">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paint-bucket">
+          <path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/>
+          <path d="m5 2 6 6"/>
+          <path d="M13.5 15.5 22 7l-1.5-1.5L13.5 13Z"/>
+        </svg>
+      </span>
+      <span class="tooltip">Cycle Colors</span>
+    </button>
+
+    <button id="random-button" class="social-link" aria-label="Random gradient colors">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shuffle">
+          <path d="M2 18h1.4c1.3 0 2.5-.6 3.4-1.6l1.8-1.8c.9-1 2.1-1.6 3.4-1.6H22"/>
+          <path d="m18 2 4 4-4 4"/>
+          <path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2l1.1 2.3c.7 1.3 2.1 2.2 3.6 2.2H22"/>
+          <path d="m18 22 4-4-4-4"/>
+        </svg>
+      </span>
+      <span class="tooltip">Random Colors</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  // Define types for better TypeScript support
+  type ButtonElement = HTMLButtonElement;
+  type ActionFunction = () => void;
+
+  // Spinner SVG for loading state
+  const spinnerIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>`;
+
+  // Original SVGs (Using updated icons)
+  const cycleIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paint-bucket"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 6 6"/><path d="M13.5 15.5 22 7l-1.5-1.5L13.5 13Z"/></svg>`;
+
+  const randomIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shuffle"><path d="M2 18h1.4c1.3 0 2.5-.6 3.4-1.6l1.8-1.8c.9-1 2.1-1.6 3.4-1.6H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2l1.1 2.3c.7 1.3 2.1 2.2 3.6 2.2H22"/><path d="m18 22 4-4-4-4"/></svg>`;
+
+  // Function to show loading state on a button
+  function setButtonLoading(button: ButtonElement, isLoading: boolean): void {
+    const iconEl = button.querySelector('.icon');
+
+    if (isLoading) {
+      button.classList.add('loading');
+      button.disabled = true;
+
+      // Replace icon with spinner
+      if (iconEl) {
+        iconEl.innerHTML = spinnerIcon;
+      }
+    } else {
+      button.classList.remove('loading');
+      button.disabled = false;
+
+      // Restore original icon
+      if (iconEl) {
+        const isCycleButton = button.id === 'cycle-button';
+        // Ensure the correct icon is restored based on button ID
+        iconEl.innerHTML = isCycleButton ? cycleIcon : randomIcon;
+      }
+    }
+  }
+
+  // Handle button clicks with debouncing/loading state
+// Handle button clicks with debouncing/loading state
+function handleButtonClick(button: ButtonElement, actionFn: ActionFunction): void {
+    // Check if already loading to prevent multiple clicks
+    if (button.classList.contains('loading')) return;
+
+    // Set loading state
+    setButtonLoading(button, true);
+
+    // Call the action function
+    try {
+      actionFn();
+    } catch (error) {
+      console.error("Error during button action:", error);
+      // Optionally reset button state immediately on error
+      setButtonLoading(button, false);
+      return; // Stop further execution in case of error
+    }
+
+    // Reset after a timeout (e.g., 1 second)
+    // Adjust timeout as needed, potentially based on gradient transition duration
+    setTimeout(() => {
+      setButtonLoading(button, false);
+    }, 1000);
+  }
+
+  // Function to set up event listeners for the buttons
+  function setupButtonListeners(): void {
+    console.log("Setting up gradient button listeners");
+
+    const cycleButton = document.getElementById('cycle-button') as HTMLButtonElement | null;
+    const randomButton = document.getElementById('random-button') as HTMLButtonElement | null;
+
+    // --- Event Listener Logic ---
+    // Remove previous listeners to prevent duplicates on HMR or Astro page transitions
+    if (cycleButton && cycleButton.parentNode) {
+      const newCycleButton = cycleButton.cloneNode(true) as HTMLButtonElement;
+      cycleButton.parentNode.replaceChild(newCycleButton, cycleButton);
+
+      newCycleButton.addEventListener('click', () => {
+        console.log("Cycle button clicked");
+        handleButtonClick(newCycleButton, () => {
+          // Check for different possible global function names/objects
+          if (window.gradientManager && typeof window.gradientManager.nextGradient === 'function') {
+            window.gradientManager.nextGradient();
+          } else if (typeof window.cycleGradientSet === 'function') {
+            window.cycleGradientSet();
+          } else {
+            console.error("No gradient cycling function found on window.gradientManager or window.cycleGradientSet");
+          }
+        });
+      });
+    } else {
+      console.error("Cycle button not found");
+    }
+
+    if (randomButton && randomButton.parentNode) {
+      const newRandomButton = randomButton.cloneNode(true) as HTMLButtonElement;
+      randomButton.parentNode.replaceChild(newRandomButton, randomButton);
+
+      newRandomButton.addEventListener('click', () => {
+        console.log("Random button clicked");
+        handleButtonClick(newRandomButton, () => {
+          // Check for different possible global function names/objects
+          if (window.gradientManager && typeof window.gradientManager.randomGradient === 'function') {
+            window.gradientManager.randomGradient();
+          } else if (typeof window.randomizeGradient === 'function') {
+            window.randomizeGradient();
+          } else {
+            console.error("No gradient randomize function found on window.gradientManager or window.randomizeGradient");
+          }
+        });
+      });
+    } else {
+      console.error("Random button not found");
+    }
+  }
+
+  // --- Initialization Logic ---
+  // Use a flag to ensure setup runs only once per full page load/transition sequence
+  let listenersInitialized = false;
+
+  function initializeIfNeeded(): void {
+    if (!listenersInitialized) {
+      setupButtonListeners();
+      listenersInitialized = true;
+    }
+  }
+
+  // Try setting up listeners on initial load
+  if (document.readyState === 'loading') {
+    // Loading hasn't finished yet
+    document.addEventListener('DOMContentLoaded', initializeIfNeeded);
+  } else {
+    // `DOMContentLoaded` has already fired or state is 'interactive'/'complete'
+    initializeIfNeeded();
+  }
+
+  // Re-attach listeners after Astro view transitions
+  // Reset the flag on page load to allow re-initialization
+  document.addEventListener('astro:page-load', () => {
+    console.log("Astro page load detected, re-initializing listeners.");
+    listenersInitialized = false; // Reset flag
+    initializeIfNeeded(); // Re-run setup
+  });
+
+  // Add TypeScript interface for window global objects
+  interface Window {
+    gradientManager?: {
+      nextGradient?: () => void;
+      randomGradient?: () => void;
+    };
+    cycleGradientSet?: () => void;
+    randomizeGradient?: () => void;
+  }
+</script>
+
+<style>
+  .social-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px; /* Fixed width */
+    height: 44px; /* Fixed height */
+    color: #e4e4e7; /* Icon color */
+    background-color: rgba(0, 0, 0, 0.3); /* Darker semi-transparent background */
+    border-radius: 12px; /* Rounded corners */
+    border: 1px solid rgba(113, 113, 122, 0.2); /* Subtle border */
+    backdrop-filter: blur(10px); /* Background blur effect */
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transition */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Subtle shadow */
+    overflow: hidden; /* Hide overflow */
+    cursor: pointer; /* Pointer cursor */
+  }
+
+  .social-link:disabled {
+    opacity: 0.6; /* Dim disabled button */
+    cursor: not-allowed; /* Not-allowed cursor */
+  }
+
+  /* Hover effect - lift and glow */
+  .social-link:hover:not(:disabled) {
+    transform: translateY(-4px); /* Lift effect */
+    background-color: rgba(39, 39, 42, 0.5); /* Slightly darker on hover */
+    border-color: rgba(161, 161, 170, 0.4); /* Brighter border on hover */
+    color: #ffffff; /* White icon on hover */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1); /* Larger shadow */
+  }
+
+  /* Active (click) effect */
+  .social-link:active:not(:disabled) {
+    transform: translateY(-2px); /* Slight press down effect */
+  }
+
+  .icon {
+    display: flex; /* Use flex to center icon if needed */
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9; /* Slight transparency */
+    z-index: 1; /* Ensure icon is above pseudo-elements */
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1)); /* Subtle icon shadow */
+    transition: transform 0.2s ease; /* Smooth icon scaling */
+  }
+
+  .social-link:hover:not(:disabled) .icon {
+    transform: scale(1.1); /* Scale up icon on hover */
+  }
+
+  /* Animated glow effect using pseudo-element */
+  .social-link::before {
+    content: '';
+    position: absolute;
+    inset: -1px; /* Cover the border area */
+    z-index: 0; /* Behind the icon */
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1), /* Subtle white highlight */
+      rgba(255, 255, 255, 0.05),
+      transparent,
+      transparent
+    );
+    border-radius: 12px; /* Match parent border-radius */
+    /* Mask to create an inner glow effect */
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude; /* Standard syntax */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease; /* Fade in/out */
+  }
+
+  .social-link:hover:not(:disabled)::before {
+    opacity: 1; /* Show glow on hover */
+  }
+
+  /* Animation for the spinning loader */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite; /* Apply the spin animation */
+  }
+
+  /* Tooltip styling */
+  .tooltip {
+    position: absolute;
+    bottom: -30px; /* Position below the button */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%) translateY(8px); /* Center and position slightly down */
+    padding: 0.25rem 0.75rem; /* Padding */
+    border-radius: 6px; /* Rounded corners */
+    background-color: rgba(0, 0, 0, 0.75); /* Dark background */
+    color: white; /* White text */
+    font-size: 0.75rem; /* Small font size */
+    white-space: nowrap; /* Prevent wrapping */
+    pointer-events: none; /* Don't interfere with clicks */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s ease, transform 0.2s ease; /* Smooth fade and slide */
+    z-index: 10; /* Ensure tooltip is above other elements */
+  }
+
+  /* Show tooltip on hover */
+  .social-link:hover:not(:disabled) .tooltip {
+    opacity: 1; /* Fade in */
+    transform: translateX(-50%) translateY(0); /* Slide up */
+  }
+</style>

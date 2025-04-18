@@ -1,0 +1,38 @@
+---
+// src/components/NavBar.astro
+import DesktopNav from './DesktopNav.astro';
+import MobileNav from './MobileNav.astro';
+---
+
+<header class="fixed top-0 w-full z-50" transition:persist>
+  <!-- Desktop Navigation - Only rendered on larger screens -->
+  <div class="hidden md:block">
+    <DesktopNav />
+  </div>
+
+  <!-- Mobile Navigation - Only loaded when visible -->
+  <div class="md:hidden">
+    <MobileNav/>
+  </div>
+</header>
+
+
+<div class="nav-spacer"></div>
+
+<style>
+  header {
+    background-color: transparent;
+  }
+  
+
+  .nav-spacer {
+    height: 100px;
+    width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .nav-spacer {
+      height: 70px; 
+    }
+  }
+</style>
