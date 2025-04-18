@@ -1,0 +1,262 @@
+---
+// src/components/navigation/MobileNav.astro
+import { ClientRouter } from 'astro:transitions';
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  // { href: "/book-reviews", label: "Book Reviews" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" }
+];
+---
+
+<ClientRouter />
+
+<div class="mobile-nav-container" transition:persist>
+  <!-- Mobile header with blur - bar style -->
+  <div class="top-bar backdrop-blur-md bg-black/20 flex items-center justify-between px-4 py-3">
+    <!-- Logo centered -->
+    <div class="flex-1 text-center">
+      <a href="/" class="text-white text-xl font-medium opacity-90 hover:opacity-100 transition-opacity">
+        ZVIX
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button on right -->
+    <button
+      id="mobile-menu-button"
+      class="z-10 flex items-center justify-center w-10 h-10 rounded-lg bg-black/30 backdrop-blur-md border border-zinc-800/50"
+      aria-label="Toggle navigation menu"
+    >
+      <div class="burger-icon">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </div>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation Dropdown (Initially hidden) -->
+  <div
+    id="mobile-nav"
+    class="mt-4 overflow-hidden h-0 transition-all duration-500 px-4"
+  >
+    <nav class="backdrop-blur-md rounded-xl bg-black/20 border border-zinc-800/30 p-4">
+      <ul class="flex flex-col items-center space-y-4">
+        {navLinks.map((link) => (
+          <li class="w-full nav-item">
+            <a href={link.href} class="mobile-nav-link block text-center w-full">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<style>
+  /* Bar-like header instead of capsule */
+  .top-bar {
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid rgba(82, 82, 91, 0.1);
+  }
+  
+  .mobile-nav-link {
+    color: #d4d4d8;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+    opacity: 0.8;
+    background-color: transparent; /* Explicit default background */
+  }
+
+  .mobile-nav-link:hover {
+    opacity: 0.9;
+    background-color: rgba(113, 113, 122, 0.15);
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.10);
+  }
+  
+  /* Active state - more specific to override hover state */
+  .mobile-nav-link.active-link {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    color: white !important;
+  }
+  
+  /* Burger icon animation styles */
+  .burger-icon {
+    position: relative;
+    width: 18px;
+    height: 14px;
+    pointer-events: none; /* Make sure clicks go through to the button */
+  }
+  
+  .burger-line {
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none; /* Make sure clicks go through to the button */
+  }
+  
+  .burger-line:nth-child(1) {
+    top: 2px;
+  }
+  
+  .burger-line:nth-child(2) {
+    top: 6px;
+  }
+  
+  .burger-line:nth-child(3) {
+    top: 10px;
+  }
+  
+  /* Burger animation active state */
+  .burger-active .burger-line:nth-child(1) {
+    transform: translateY(4px) rotate(45deg);
+  }
+  
+  .burger-active .burger-line:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .burger-active .burger-line:nth-child(3) {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+  
+  /* Menu item animation */
+  .nav-item {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .nav-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  // Function to setup the mobile menu toggle
+  function setupMobileMenu() {
+    // Create a new listener on each page load
+    const menuButton = document.getElementById("mobile-menu-button") as HTMLButtonElement | null;
+    const mobileNav = document.getElementById("mobile-nav") as HTMLDivElement | null;
+    const burgerIcon = document.querySelector(".burger-icon") as HTMLDivElement | null;
+    const navItems = document.querySelectorAll<HTMLLIElement>(".nav-item");
+    
+    if (!menuButton || !mobileNav || !burgerIcon) return;
+    
+    // Remove any existing click handlers by cloning the button
+    const newMenuButton = menuButton.cloneNode(true) as HTMLButtonElement;
+    if (menuButton.parentNode) {
+      menuButton.parentNode.replaceChild(newMenuButton, menuButton);
+    }
+    
+    // Add a new click handler to the cloned button
+    newMenuButton.addEventListener("click", () => {
+      // Toggle burger icon
+      burgerIcon.classList.toggle("burger-active");
+      
+      // Toggle mobile menu visibility
+      if (mobileNav.classList.contains("h-0")) {
+        // Open menu
+        mobileNav.classList.remove("h-0");
+        mobileNav.classList.add("h-auto");
+        
+        // Animate nav items
+        navItems.forEach((item, index) => {
+          setTimeout(() => {
+            item.classList.add("visible");
+          }, 100 + (index * 50));
+        });
+      } else {
+        // Close menu
+        mobileNav.classList.add("h-0");
+        mobileNav.classList.remove("h-auto");
+        
+        // Hide nav items
+        navItems.forEach((item) => {
+          item.classList.remove("visible");
+        });
+      }
+    });
+    
+    // Close menu when clicking nav links
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>(".mobile-nav-link");
+    navLinks.forEach((link) => {
+      // Clone and replace to remove old listeners
+      const newLink = link.cloneNode(true) as HTMLAnchorElement;
+      if (link.parentNode) {
+        link.parentNode.replaceChild(newLink, link);
+      }
+      
+      // Add new click listener
+      newLink.addEventListener("click", () => {
+        // Close the menu
+        mobileNav.classList.add("h-0");
+        mobileNav.classList.remove("h-auto");
+        burgerIcon.classList.remove("burger-active");
+        
+        // Hide nav items
+        navItems.forEach((item) => {
+          item.classList.remove("visible");
+        });
+      });
+    });
+
+    // Reset all link styles first
+    const allLinks = document.querySelectorAll<HTMLAnchorElement>('.mobile-nav-link');
+    allLinks.forEach(link => {
+      // Reset to default styles
+      link.classList.remove('active-link', 'text-white', 'bg-black/30');
+      link.style.opacity = '0.8';
+      link.style.backgroundColor = 'transparent';
+    });
+
+    // Highlight active page
+    const currentPath = window.location.pathname;
+    
+    allLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      if (href === currentPath || 
+          (href !== '/' && currentPath.startsWith(href))) {
+        // Use a specific class for active links
+        link.classList.add('active-link');
+      }
+    });
+  }
+
+  // Function to reset any stuck hover states
+  function resetHoverStates() {
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>('.mobile-nav-link');
+    navLinks.forEach(link => {
+      if (!link.classList.contains('active-link')) {
+        link.style.backgroundColor = 'transparent';
+        link.style.opacity = '0.8';
+      }
+    });
+  }
+
+  // Run on initial page load
+  document.addEventListener('DOMContentLoaded', () => {
+    setupMobileMenu();
+    resetHoverStates();
+  });
+  
+  // Run after each page transition
+  document.addEventListener('astro:page-load', () => {
+    setupMobileMenu();
+    resetHoverStates();
+  });
+  
+  // Also run after page swaps to ensure transitions don't keep hover states
+  document.addEventListener('astro:after-swap', resetHoverStates);
+</script>

@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 import BaseLayout from "../layouts/BaseLayout.astro"
 import About from "../components/About.astro"
 ---
@@ -6,3 +7,171 @@ import About from "../components/About.astro"
 <BaseLayout>
     <About />
 </BaseLayout>
+=======
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SocialMediaButton from "../components/about/SocialMediaButton.astro";
+import ProfileColumn from "../components/about/ProfileColumn.astro";
+import ExperienceCard from "../components/about/ExperienceCard.astro";
+import CourseCard from "../components/about/CourseCard.astro";
+import GradientDebug from "../components/ui/GradientDebug.astro";
+---
+
+<BaseLayout>
+  <div class="max-w-7xl mx-auto min-h-screen flex flex-col lg:flex-row">
+    <!-- Left column (fixed) -->
+    <ProfileColumn name="Răzvan Olariu" nickname="ZVIX">
+      <SocialMediaButton platform="github" username="RazvanO2" />
+      <SocialMediaButton platform="linkedin" username="razvan-olariu" />
+      <SocialMediaButton platform="youtube" username="zvix" />
+    </ProfileColumn>
+    <!-- Right column (scrollable) -->
+    <div class="lg:w-3/5 lg:ml-auto py-12 px-8">
+      <div class="about-section mb-16">
+        <p class="text-[#FFFFFF] text-lg opacity-80 mb-4"></p>
+        <p class="text-[#FFFFFF] text-lg opacity-80 mb-4">
+          Hey there! I'm Răzvan, a Finance graduate with a passion for
+          technology and programming. After focusing on Financial Engineering
+          during my studies, I'm now planning to pursue a Data Science master's
+          program at the University of Bucharest to build on both my technical
+          and analytical skills.
+        </p>
+        <p class="text-[#FFFFFF] text-lg opacity-80 mb-4">
+          I've enjoyed working on various tech projects—from creating Python
+          automation tools that streamlined workflows at Flanco to building
+          custom PCs and developing iOS apps with Swift. My experience with
+          programming languages like Python and Swift has helped me solve
+            various problems and improve processes in my work.
+        </p>
+        <p class="text-[#FFFFFF] text-lg opacity-80 mb-4">
+          When I'm not coding or diving into financial models, you'll find me
+          bodybuilding, following Formula 1, or build new apps. I'm always curious about exploring new technologies and
+          looking forward to connecting with people who share similar interests
+          in the tech world.
+        </p>
+      </div>
+
+      <!-- Experience Section -->
+      <div class="experience-section mb-16">
+        <h2
+          class="text-[#FFFFFF] text-2xl font-medium uppercase mb-8 opacity-80"
+        >
+          Experience
+        </h2>
+        <ExperienceCard
+          title="IT Hardware/Software Specialist"
+          company="Freelance"
+          duration="JAN 2015 - Present"
+          description={[
+            "Provided IT support services to small businesses and individuals, including hardware and software troubleshooting, network setup, and system maintenance.",
+            "Developed a custom PC building service, offering personalized builds based on client requirements.",
+            "Overclocked and optimized gaming PCs for clients, improving performance by up to 30%.",
+            "Repaired phones and MacBooks, replacing screens, batteries, and other components.",
+          ]}
+          skills={[
+            "PC Technician ",
+            "Hardcore Overclocking",
+            "Troubleshooting",
+          ]}
+        />
+        <ExperienceCard
+          title="Web Content Developer"
+          company="Flanco"
+          duration="AUG 2023 - OCT 2023"
+          description={[
+            "Developed and maintained the company's website by creating and updating product pages, ensuring that the content is accurate and up-to-date.",
+            "Independently engineered two in-house tools using Python Selenium and Pandas, automating product data extraction and processing from manufacturer websites.",
+            "These tools reduced task completion time by ~65%, saving approximately 20 hours per week.",
+            "Left the position because I couldn't balance it with my studies.",
+          ]}
+          skills={[
+            "HTML/CSS",
+            "JavaScript",
+            "Python",
+            "Web Scraping",
+            "Data Processing",
+          ]}
+        />
+      </div>
+
+      <!-- Education Section -->
+      <div class="education-section mb-16">
+        <h2
+          class="text-[#FFFFFF] text-2xl font-medium uppercase mb-8 opacity-80"
+        >
+          Education
+        </h2>
+
+        <ExperienceCard
+          title="Bachelor of Finance"
+          duration="2021 - 2024"
+          description={[
+            "Specialized in Financial Engineering",
+            'Thesis: "Usage of Machine Learning Methods in portfolio optimization"',
+            "Thesis Grade: 9",
+          ]}
+        >
+          <p class="text-[#FFFFFF] opacity-70 mb-3">
+            Bucharest University of Economic Studies
+          </p>
+        </ExperienceCard>
+
+        <ExperienceCard
+          title="High School Diploma"
+          duration="2017 - 2021"
+          description={[
+            "Natural Sciences and Mathematics Profile",
+            "Participated in the National Olympiad of Information and Technology",
+            "Ranked 44th out of 846 participants nationwide, placing in the top 5.2% of competitors.",
+          ]}
+        >
+          <p class="text-[#FFFFFF] opacity-70 mb-3">
+            Theoretical High School "Dimitrie Bolintineanu", Bucharest
+          </p>
+        </ExperienceCard>
+      </div>
+
+      <!-- Courses Section -->
+      <div class="courses-section mb-16">
+        <h2
+          class="text-[#FFFFFF] text-2xl font-medium uppercase mb-8 opacity-80"
+        >
+          Courses & Certifications
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <CourseCard
+            title="Python 3 Deep Dive Part 1-4"
+            provider="Udemy"
+            year="2023"
+            description="Completed 4-course series covering Python basics, data structures, Iterators/Generators, JSON, object-oriented programming, and more."
+          />
+
+          <CourseCard
+            title="iOS & Swift - The Complete iOS App Development Bootcamp"
+            provider="Dr. Angela Yu"
+            year="2022"
+            description="Learned iOS app development, including Swift, Xcode, UIKit, and SwiftUI, by building 10+ apps."
+          />
+
+          <CourseCard
+            title="AWS Cloud Practitioner"
+            provider="Amazon Web Services"
+            year="2021"
+            description="Certified in AWS fundamentals, cloud concepts, security, and AWS core services."
+          />
+
+          <CourseCard
+            title="UI/UX Design Fundamentals"
+            provider="Udemy"
+            year="2020"
+            description="Learned principles of user-centered design, wireframing, prototyping, and usability testing."
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Include the debug panel during development (remove for production) -->
+  <!-- <GradientDebug /> -->
+</BaseLayout>
+>>>>>>> main

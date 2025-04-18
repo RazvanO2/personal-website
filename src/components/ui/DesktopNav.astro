@@ -1,0 +1,341 @@
+---
+// src/components/navigation/DesktopNav.astro
+import { ClientRouter } from 'astro:transitions';
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" }
+];
+---
+
+<ClientRouter />
+
+<div class="flex justify-center w-full p-4 flex-shrink-0">
+  <nav class="desktop-nav backdrop-blur-md rounded-xl max-w-2xl w-auto mx-auto relative overflow-hidden nav-container" transition:persist>
+    <!-- Center radial glow effect for first load -->
+    <div class="center-ripple first-load-only"></div>
+    
+    <!-- Content with glass effect -->
+    <div class="flex flex-wrap justify-center items-center p-3 relative z-10">
+      <!-- Links with divider bars -->
+      {navLinks.map((link, index) => (
+        <>
+          <a href={link.href} class="nav-link">
+            <span>{link.label}</span>
+            <div class="active-indicator"></div>
+          </a>
+          
+          {index < navLinks.length - 1 && <div class="divider"></div>}
+        </>
+      ))}
+    </div>
+  </nav>
+</div>
+
+<style>
+  .nav-container {
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 0.8px solid rgba(82, 82, 91, 0.2);
+    box-shadow: 0px 0px 17.6px -6px rgba(162, 162, 162, 0.15),
+                inset 0px 0px 10px rgba(255, 255, 255, 0.05);
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Only apply animations for first page load */
+  .nav-container.first-load {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.99);
+    transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: blur(3px);
+  }
+  
+  /* Shimmer loading effect - only on first load */
+  .shimmer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+  }
+  
+  .shimmer-overlay.first-load-only {
+    animation: shimmer 1s ease-in-out forwards 0.2s;
+    background-size: 200% 100%;
+    background-position: -100% 0;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -100% 0;
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      background-position: 200% 0;
+      opacity: 0;
+    }
+  }
+  
+  /* Link styling and hover effects */
+  .nav-link {
+    color: #d4d4d8;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+    transform: scale(1);
+    position: relative;
+  }
+  
+  .nav-link.first-load {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .nav-link.active {
+    color: white;
+    opacity: 1;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    opacity: 0.9;
+    background-color: rgba(113, 113, 122, 0.15);
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.10);
+  }
+  
+  .nav-link:hover .active-indicator {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  
+  .divider {
+    height: 1.8rem;
+    border-right: 1px solid rgba(82, 82, 91, 0.5);
+    margin: 0 0.25rem;
+    opacity: 1;
+  }
+  
+  .divider.first-load {
+    opacity: 0;
+  }
+  
+  /* Glow overlay for the inner glow effect */
+  .glow-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  }
+  
+  /* Ambient glow effect for first load */
+  .ambient-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 5;
+    background: radial-gradient(circle at center, rgba(127, 127, 255, 0.08) 0%, transparent 70%);
+    animation: ambient-pulse 3s ease-in-out infinite alternate;
+  }
+  
+  .ambient-glow.first-load-only {
+    animation: ambient-intro 1.8s ease-in-out forwards;
+  }
+  
+  @keyframes ambient-intro {
+    0% {
+      opacity: 0;
+      transform: scale(0.9);
+      filter: blur(5px);
+    }
+    40% {
+      opacity: 0.4;
+      filter: blur(3px);
+    }
+    70% {
+      opacity: 0.3;
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.1);
+      filter: blur(0);
+    }
+  }
+  
+  @keyframes ambient-pulse {
+    0% {
+      opacity: 0.1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.2;
+      transform: scale(1.1);
+    }
+  }
+
+  /* Prevent transition flashing */
+  :global(html.astro-transition-fallback) .nav-container,
+  :global(html.astro-transition) .nav-container {
+    background-color: rgba(0, 0, 0, 0.25) !important;
+    transition: none !important;
+  }
+
+  @media (max-width: 640px) {
+    .nav-link {
+      padding: 0.3rem 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Check if this is the first page load in this session
+  const isFirstLoad = !sessionStorage.getItem('navAnimationPlayed');
+  
+  // Set up animations for first load only
+  function setupFirstLoadAnimation() {
+    const navContainer = document.querySelector('.nav-container');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const dividers = document.querySelectorAll('.divider');
+    
+    if (!navContainer) return;
+    
+    if (isFirstLoad) {
+      console.log("Playing initial nav animation");
+      
+      // Add first-load classes 
+      navContainer.classList.add('first-load');
+      navLinks.forEach(link => link.classList.add('first-load'));
+      dividers.forEach(divider => divider.classList.add('first-load'));
+      
+      // Create a more dynamic entrance animation
+      setTimeout(() => {
+        // Apply special animation class to container
+        requestAnimationFrame(() => {
+          // First show the container with a spring-like motion
+          if (navContainer instanceof HTMLElement) {
+            navContainer.style.opacity = "1";
+            navContainer.style.transform = "translateY(0) scale(1)";
+            navContainer.style.filter = "blur(0px)";
+          }
+          
+          // Animate links with staggered delay and spring effect
+          navLinks.forEach((link, index) => {
+            setTimeout(() => {
+              if (link instanceof HTMLElement) {
+                link.style.opacity = link.classList.contains('active') ? "1" : "0.8";
+                link.style.transform = "translateY(0) scale(1)";
+                link.style.filter = "blur(0px)";
+                
+                // Add subtle pulse effect to each link as it appears
+                link.animate([
+                  { transform: 'scale(1)', opacity: link.classList.contains('active') ? "1" : "0.8" },
+                  { transform: 'scale(1.05)', opacity: link.classList.contains('active') ? "1" : "0.9" },
+                  { transform: 'scale(1)', opacity: link.classList.contains('active') ? "1" : "0.8" }
+                ], {
+                  duration: 400,
+                  easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  delay: 200
+                });
+              }
+            }, 300 + (index * 150));
+          });
+          
+          // Animate dividers with slight scaling
+          setTimeout(() => {
+            dividers.forEach((divider, index) => {
+              setTimeout(() => {
+                if (divider instanceof HTMLElement) {
+                  divider.style.opacity = "1";
+                  // Add subtle height grow animation
+                  divider.animate([
+                    { height: '0rem', opacity: 0 },
+                    { height: '1.8rem', opacity: 1 }
+                  ], {
+                    duration: 300,
+                    easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                  });
+                }
+              }, index * 100);
+            });
+          }, 600);
+        });
+      }, 200);
+      };
+      
+      // Mark that we've played the animation
+      sessionStorage.setItem('navAnimationPlayed', 'true');
+    };
+
+  // Update active link highlighting
+  function updateActiveLink() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // Remove active class from all links
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link instanceof HTMLElement) {
+        link.style.opacity = '0.8';
+      }
+    });
+    
+    // Add active class to current link
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      if (href === currentPath || 
+          (href !== '/' && currentPath.startsWith(href)) ||
+          (href === '/' && currentPath === '/')) {
+        link.classList.add('active');
+        if (link instanceof HTMLElement) {
+          link.style.opacity = '1';
+        }
+      }
+    });
+  }
+  
+  // Run on initial page load
+  document.addEventListener('DOMContentLoaded', () => {
+    setupFirstLoadAnimation();
+    updateActiveLink();
+  });
+  
+  // Run when Astro completes a page transition
+  document.addEventListener('astro:page-load', () => {
+    updateActiveLink();
+  });
+  
+  // Run before Astro starts a page transition
+  document.addEventListener('astro:before-preparation', () => {
+    // We could add transition out effects here if needed in the future
+  });
+  
+  // Also listen for direct navigation changes
+  window.addEventListener('popstate', () => {
+    updateActiveLink();
+  });
+</script>

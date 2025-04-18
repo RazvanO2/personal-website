@@ -1,0 +1,723 @@
+---
+import { ClientRouter } from 'astro:transitions';
+---
+
+<div class="gradient-container" transition:persist>
+  <ClientRouter />
+  <canvas id="gradient-canvas"></canvas>
+</div>
+
+<style>
+  .gradient-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Places it behind other content */
+    overflow: hidden;
+  }
+  
+  #gradient-canvas {
+    width: 100%;
+    height: 100%;
+    --color-1: #111111;
+    --color-2: #222222;
+    --color-3: #333333;
+    --color-4: #1a1a1a;
+
+  }
+</style>
+  
+<script>
+  // Import Gradient and our color updater
+  import { Gradient } from './gradient.js';
+  import { addUpdateColorsToGradient } from './color-updater.js';
+  
+  // Define a proper type interface for your Gradient class
+  interface GradientType {
+    initGradient: (selector: string) => void;
+    resize: () => void;
+    updateColors?: (colors: any[]) => boolean;
+  }
+
+  // Collection of gradient color sets - curated premium palettes
+  const gradientSets = [
+    // Subtle Dark (Default)
+    {
+      color1: "#111111",
+      color2: "#222222",
+      color3: "#333333",
+      color4: "#1a1a1a"
+    },
+    //test red 
+    {
+      color1: "#ff0000",
+      color2: "#ff3333",
+      color3: "#ff6666",
+      color4: "#ff9999"
+    },
+    // Elegant Slate (Monochromatic)
+    {
+      color1: "#0f172a",
+      color2: "#1e293b",
+      color3: "#334155",
+      color4: "#475569"
+    },
+    // Onyx (Monochromatic)
+    {
+      color1: "#18181b",
+      color2: "#27272a",
+      color3: "#3f3f46",
+      color4: "#52525b"
+    },
+    // Midnight Indigo (Monochromatic)
+    {
+      color1: "#1e1b4b",
+      color2: "#312e81",
+      color3: "#3730a3",
+      color4: "#4338ca"
+    },
+    // Ocean Depths (Monochromatic)
+    {
+      color1: "#042f2e",
+      color2: "#134e4a",
+      color3: "#115e59",
+      color4: "#0f766e"
+    },
+    // Amethyst (Monochromatic)
+    {
+      color1: "#4a044e",
+      color2: "#5b0060",
+      color3: "#701a75",
+      color4: "#86198f"
+    },
+    // Charcoal (Monochromatic)
+    {
+      color1: "#1c1917",
+      color2: "#292524",
+      color3: "#44403c",
+      color4: "#57534e"
+    },
+    // Graphite (Monochromatic)
+    {
+      color1: "#09090b",
+      color2: "#18181b",
+      color3: "#27272a",
+      color4: "#3f3f46"
+    },
+    // Cobalt (Monochromatic)
+    {
+      color1: "#0c4a6e",
+      color2: "#075985",
+      color3: "#0369a1",
+      color4: "#0284c7"
+    },
+    // Emerald Mist (Monochromatic)
+    {
+      color1: "#064e3b",
+      color2: "#065f46",
+      color3: "#047857",
+      color4: "#059669"
+    },
+    // Crimson Dusk (Monochromatic)
+    {
+      color1: "#7f1d1d",
+      color2: "#991b1b",
+      color3: "#b91c1c",
+      color4: "#dc2626"
+    },
+    // Royal Velvet (Monochromatic)
+    {
+      color1: "#4c1d95",
+      color2: "#5b21b6",
+      color3: "#6d28d9",
+      color4: "#7c3aed"
+    },
+    // Deep Forest (Monochromatic)
+    {
+      color1: "#052e16",
+      color2: "#064e3b",
+      color3: "#065f46",
+      color4: "#047857"
+    },
+    // Twilight (Monochromatic)
+    {
+      color1: "#1e1b4b",
+      color2: "#312e81",
+      color3: "#3730a3",
+      color4: "#4338ca"
+    },
+    // Space Gray (Monochromatic)
+    {
+      color1: "#030712",
+      color2: "#111827",
+      color3: "#1f2937",
+      color4: "#374151"
+    },
+    // Steel Blue (Monochromatic)
+    {
+      color1: "#0e7490",
+      color2: "#0891b2", 
+      color3: "#06b6d4",
+      color4: "#22d3ee"
+    },
+    // Cosmic Purple (Monochromatic)
+    {
+      color1: "#2e1065",
+      color2: "#5b21b6",
+      color3: "#6d28d9", 
+      color4: "#7c3aed"
+    },
+    // Deep Bronze (Monochromatic)
+    {
+      color1: "#422006",
+      color2: "#713f12",
+      color3: "#854d0e",
+      color4: "#a16207"
+    },
+    // Smoky (Monochromatic)
+    {
+      color1: "#0f0f0f",
+      color2: "#121212",
+      color3: "#171717",
+      color4: "#262626"
+    },
+    // Dark Slate (Monochromatic)
+    {
+      color1: "#0f172a",
+      color2: "#1e293b",
+      color3: "#334155",
+      color4: "#475569"
+    },
+    // Midnight Ocean - Bi-tonal
+    {
+      color1: "#0f172a",
+      color2: "#1e293b",
+      color3: "#334155",
+      color4: "#1e40af"
+    },
+    // Deep Space - Bi-tonal
+    {
+      color1: "#020617",
+      color2: "#0f172a",
+      color3: "#1e1b4b",
+      color4: "#312e81"
+    },
+    // Ethereal Violet - Bi-tonal
+    {
+      color1: "#2e1065",
+      color2: "#5b21b6",
+      color3: "#7e22ce",
+      color4: "#c026d3"
+    },
+  ];
+
+  // Ultra dark set for blog reading mode - extra dark for readability
+  const blogReadingSet = {
+    color1: "#0c0c0c",
+    color2: "#0c0c0c", 
+    color3: "#101010",
+    color4: "#0c0c0c"
+  };
+
+  class GradientManager {
+    gradient: GradientType | null;
+    canvas: HTMLCanvasElement | null;
+    currentSetIndex: number;
+    previousSet: any;
+    isTransitioning: boolean;
+    transitionDuration: number;
+    pendingOperation: Function | null;
+    lastTransitionTime: number;
+
+    constructor() {
+      this.gradient = null;
+      this.canvas = document.getElementById('gradient-canvas') as HTMLCanvasElement;
+      this.currentSetIndex = 0;
+      this.previousSet = null;
+      this.isTransitioning = false;
+      this.transitionDuration = 800; // 0.8 seconds for transition (reduced for faster response)
+      this.pendingOperation = null;
+      this.lastTransitionTime = 0;
+      
+      console.log("GradientManager initialized");
+    }
+
+    initialize() {
+      // Check if gradient is already initialized
+      if (!this.gradient && this.canvas) {
+        console.log("Initializing gradient");
+        
+        // Create new Gradient instance
+        this.gradient = new Gradient() as unknown as GradientType;
+        this.gradient.initGradient('#gradient-canvas');
+        
+        // Add updateColors method to our gradient instance
+        this.gradient = addUpdateColorsToGradient(this.gradient);
+        
+        // Make the Gradient instance available globally
+        if (typeof window !== 'undefined') {
+          window.myGradientInstance = this.gradient;
+        }
+        
+        console.log("Gradient and color updater initialized");
+      }
+    }
+
+    handlePageChange() {
+      // Check if current page is a blog article
+      const isBlogArticle = document.body.classList.contains('blog-article') || 
+                          window.location.pathname.includes('/blog/');
+      
+      console.log("Handling page change, isBlogArticle:", isBlogArticle);
+      
+      if (isBlogArticle) {
+        // Save current set before transitioning to blog mode
+        if (!this.previousSet) {
+          this.previousSet = this.getCurrentSet();
+          console.log("Saved previous colors:", this.previousSet);
+        }
+        this.transitionTo(blogReadingSet);
+      } else if (this.previousSet) {
+        // Transition back to previous set when leaving blog
+        console.log("Restoring previous colors");
+        this.transitionTo(this.previousSet);
+        this.previousSet = null;
+      }
+    }
+
+    getCurrentSet() {
+      if (!this.canvas) return null;
+      
+      return {
+        color1: getComputedStyle(this.canvas).getPropertyValue('--gradient-color-1').trim(),
+        color2: getComputedStyle(this.canvas).getPropertyValue('--gradient-color-2').trim(),
+        color3: getComputedStyle(this.canvas).getPropertyValue('--gradient-color-3').trim(),
+        color4: getComputedStyle(this.canvas).getPropertyValue('--gradient-color-4').trim()
+      };
+    }
+
+    nextGradient() {
+      console.log("nextGradient called");
+      
+      // Don't change if in blog mode
+      if (this.previousSet) {
+        console.log("Color change skipped: Currently in blog reading mode");
+        return;
+      }
+      
+      const action = () => {
+        this.currentSetIndex = (this.currentSetIndex + 1) % gradientSets.length;
+        console.log(`Cycling to set ${this.currentSetIndex}`);
+        this.transitionTo(gradientSets[this.currentSetIndex]);
+      };
+      
+      // If we're already transitioning, queue this action for later
+      if (this.isTransitioning) {
+        console.log("Transition in progress, queuing next gradient");
+        this.pendingOperation = action;
+        return;
+      }
+      
+      // Otherwise, just do it now
+      action();
+    }
+
+    randomGradient() {
+      console.log("randomGradient called");
+      
+      // Don't change if in blog mode
+      if (this.previousSet) {
+        console.log("Random gradient skipped: Currently in blog reading mode");
+        return;
+      }
+      
+      const action = () => {
+        let newIndex;
+        // Ensure we don't select the same set again
+        do {
+          newIndex = Math.floor(Math.random() * gradientSets.length);
+        } while (newIndex === this.currentSetIndex && gradientSets.length > 1);
+        
+        this.currentSetIndex = newIndex;
+        console.log(`Randomly selected set ${this.currentSetIndex}`);
+        this.transitionTo(gradientSets[this.currentSetIndex]);
+      };
+      
+      // If we're already transitioning, queue this action for later
+      if (this.isTransitioning) {
+        console.log("Transition in progress, queuing random gradient");
+        this.pendingOperation = action;
+        return;
+      }
+      
+      // Otherwise, just do it now
+      action();
+    }
+
+    transitionTo(targetSet: any) {
+      console.log("Transitioning to:", targetSet);
+      
+      // Prevent transition spam by ensuring minimum time between transitions
+      const now = Date.now();
+      const timeSinceLastTransition = now - this.lastTransitionTime;
+      
+      if (timeSinceLastTransition < 200) {
+        console.log("Transition requested too soon after previous transition, ignoring");
+        return;
+      }
+      
+      if (!this.canvas || !targetSet) {
+        console.log("Cannot transition - missing canvas/target");
+        return;
+      }
+      
+      // If already transitioning, abort current transition and start new one
+      if (this.isTransitioning) {
+        console.log("Already transitioning - forcing new transition");
+      }
+      
+      this.isTransitioning = true;
+      this.lastTransitionTime = now;
+      
+      // Get current colors
+      const startSet = this.getCurrentSet();
+      if (!startSet) {
+        console.log("Cannot get current colors");
+        this.isTransitioning = false;
+        return;
+      }
+      
+      // Make sure all colors have # prefix
+      const formattedTargetSet = {
+        color1: this.ensureHexFormat(targetSet.color1),
+        color2: this.ensureHexFormat(targetSet.color2),
+        color3: this.ensureHexFormat(targetSet.color3),
+        color4: this.ensureHexFormat(targetSet.color4)
+      };
+      
+      const formattedStartSet = {
+        color1: this.ensureHexFormat(startSet.color1),
+        color2: this.ensureHexFormat(startSet.color2),
+        color3: this.ensureHexFormat(startSet.color3),
+        color4: this.ensureHexFormat(startSet.color4)
+      };
+      
+      // Animation start time
+      const startTime = performance.now();
+      
+      // Animation function
+      const animate = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / this.transitionDuration, 1);
+        
+        // Use easing for smoother transition
+        const easedProgress = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        
+        if (progress < 1) {
+          // Calculate interpolated colors
+          const interpolatedColors = [
+            this.interpolateColor(formattedStartSet.color1, formattedTargetSet.color1, easedProgress),
+            this.interpolateColor(formattedStartSet.color2, formattedTargetSet.color2, easedProgress),
+            this.interpolateColor(formattedStartSet.color3, formattedTargetSet.color3, easedProgress),
+            this.interpolateColor(formattedStartSet.color4, formattedTargetSet.color4, easedProgress)
+          ];
+          
+          // BOTH update the CSS variables and the actual gradient
+          this.setGradientColors(
+            interpolatedColors[0],
+            interpolatedColors[1],
+            interpolatedColors[2],
+            interpolatedColors[3]
+          );
+          
+          // Update the actual gradient via our new updateColors method
+          if (this.gradient && this.gradient.updateColors) {
+            this.gradient.updateColors(interpolatedColors);
+          }
+          
+          requestAnimationFrame(animate);
+        } else {
+          // Final state - set the exact target colors
+          const finalColors = [
+            formattedTargetSet.color1,
+            formattedTargetSet.color2,
+            formattedTargetSet.color3,
+            formattedTargetSet.color4
+          ];
+          
+          // Update CSS variables
+          this.setGradientColors(
+            finalColors[0],
+            finalColors[1],
+            finalColors[2],
+            finalColors[3]
+          );
+          
+          // Update actual gradient
+          if (this.gradient && this.gradient.updateColors) {
+            this.gradient.updateColors(finalColors);
+          }
+          
+          console.log("Transition complete");
+          this.isTransitioning = false;
+          
+          // Process any pending operation
+          if (this.pendingOperation) {
+            console.log("Processing pending gradient operation");
+            const operation = this.pendingOperation;
+            this.pendingOperation = null;
+            
+            // Execute pending operation after small delay to avoid immediate transitions
+            setTimeout(() => {
+              operation();
+            }, 50);
+          }
+        }
+      };
+      
+      requestAnimationFrame(animate);
+    }
+    
+    // Helper to ensure a color has # prefix if it's a hex color
+    ensureHexFormat(color: string): string {
+      if (!color) return "#000000";
+      
+      // If it already starts with # or rgb, return as is
+      if (color.startsWith('#') || color.startsWith('rgb')) {
+        return color;
+      }
+      
+      // Check if it's a hex string without the # (e.g. "ffffff")
+      if (/^[0-9A-Fa-f]{6}$/.test(color)) {
+        return `#${color}`;
+      }
+      
+      // If it doesn't match any expected format, return as is
+      return color;
+    }
+    
+    // Helper to set gradient colors in CSS variables
+    setGradientColors(color1: string, color2: string, color3: string, color4: string) {
+      if (!this.canvas) return;
+      
+      this.canvas.style.setProperty('--gradient-color-1', color1);
+      this.canvas.style.setProperty('--gradient-color-2', color2);
+      this.canvas.style.setProperty('--gradient-color-3', color3);
+      this.canvas.style.setProperty('--gradient-color-4', color4);
+    }
+    
+    // Color interpolation helper (using hex colors)
+    interpolateColor(color1: string, color2: string, factor: number) {
+      // Convert to RGB
+      const c1 = this.hexToRgb(color1);
+      const c2 = this.hexToRgb(color2);
+      
+      if (!c1 || !c2) return color1;
+      
+      // Interpolate
+      const r = Math.round(c1[0] + factor * (c2[0] - c1[0]));
+      const g = Math.round(c1[1] + factor * (c2[1] - c1[1]));
+      const b = Math.round(c1[2] + factor * (c2[2] - c1[2]));
+      
+      // Return in hex format
+      return this.rgbToHex(r, g, b);
+    }
+    
+    // Convert hex to RGB array
+    hexToRgb(hex: string): number[] | null {
+      // Handle rgb format
+      if (hex.startsWith('rgb')) {
+        const match = hex.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+        if (match) {
+          return [
+            parseInt(match[1], 10),
+            parseInt(match[2], 10),
+            parseInt(match[3], 10)
+          ];
+        }
+        return null;
+      }
+      
+      // Handle hex format
+      let cleanHex = hex.replace('#', '');
+      
+      // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+      if (cleanHex.length === 3) {
+        cleanHex = cleanHex.split('').map(c => c + c).join('');
+      }
+      
+      // Validate hex
+      if (cleanHex.length !== 6) {
+        console.error("Invalid hex format:", hex);
+        return null;
+      }
+      
+      // Parse hex
+      const r = parseInt(cleanHex.substring(0, 2), 16);
+      const g = parseInt(cleanHex.substring(2, 4), 16);
+      const b = parseInt(cleanHex.substring(4, 6), 16);
+      
+      if (isNaN(r) || isNaN(g) || isNaN(b)) {
+        console.error("Invalid hex values:", hex);
+        return null;
+      }
+      
+      return [r, g, b];
+    }
+    
+    // Convert RGB to hex
+    rgbToHex(r: number, g: number, b: number): string {
+      // Ensure values are in valid range
+      r = Math.min(255, Math.max(0, r));
+      g = Math.min(255, Math.max(0, g));
+      b = Math.min(255, Math.max(0, b));
+      
+      // Convert to hex
+      const hex = '#' + 
+        r.toString(16).padStart(2, '0') + 
+        g.toString(16).padStart(2, '0') + 
+        b.toString(16).padStart(2, '0');
+        
+      return hex;
+    }
+  }
+  
+  // Ensures the script runs only in the browser
+  if (typeof window !== 'undefined') {
+    // Explicitly define the type to fix TypeScript errors
+    let gradient: GradientType | null = null;
+    let isResizing = false;
+    
+    // Create the gradient manager on window
+    if (!window.gradientManager) {
+      console.log("Creating gradientManager on window");
+      window.gradientManager = new GradientManager();
+    }
+    
+    // Make functions directly available globally
+    window.cycleGradientSet = () => {
+      console.log("Global cycleGradientSet called");
+      window.gradientManager.nextGradient();
+    };
+    
+    window.randomizeGradient = () => {
+      console.log("Global randomizeGradient called");
+      window.gradientManager.randomGradient();
+    };
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log("GradientCanvas: DOMContentLoaded event");
+      const canvas = document.getElementById('gradient-canvas');
+      if (!canvas) {
+        console.error("Canvas element not found");
+        return;
+      }
+      
+      // Initialize the gradient if not already done
+      if (!gradient) {
+        console.log("Initializing gradient on DOMContentLoaded");
+        gradient = new Gradient() as unknown as GradientType;
+        gradient = addUpdateColorsToGradient(gradient);
+        if (gradient) {
+          gradient.initGradient('#gradient-canvas');
+        }
+        
+        // Set the gradient in the manager
+        window.gradientManager.gradient = gradient;
+        window.gradientManager.initialize();
+        
+        // Set up ResizeObserver for efficient resize handling
+        const resizeObserver = new ResizeObserver(() => {
+          if (!isResizing && gradient) {
+            isResizing = true;
+            requestAnimationFrame(() => {
+              gradient?.resize();
+              isResizing = false;
+            });
+          }
+        });
+        
+        // Observe the window size changes
+        resizeObserver.observe(document.body);
+        
+        // Check for blog mode (after a small delay to ensure DOM is ready)
+        setTimeout(() => {
+          window.gradientManager.handlePageChange();
+        }, 100);
+      }
+    });
+    
+    // For Astro view transitions, reinitialize when navigating
+    document.addEventListener('astro:page-load', () => {
+      console.log("GradientCanvas: astro:page-load event");
+      const canvas = document.getElementById('gradient-canvas');
+      if (!canvas) {
+        console.error("Canvas element not found after transition");
+        return;
+      }
+      
+      // Check if gradient is already initialized
+      if (!gradient) {
+        console.log("Initializing gradient after page transition");
+        gradient = new Gradient() as unknown as GradientType;
+        gradient = addUpdateColorsToGradient(gradient);
+        if (gradient) {
+          gradient.initGradient('#gradient-canvas');
+        }
+        
+        // Set the gradient in the manager
+        window.gradientManager.gradient = gradient;
+        window.gradientManager.initialize();
+        
+        // Set up ResizeObserver for efficient resize handling
+        const resizeObserver = new ResizeObserver(() => {
+          if (!isResizing && gradient) {
+            isResizing = true;
+            requestAnimationFrame(() => {
+              gradient?.resize();
+              isResizing = false;
+            });
+          }
+        });
+        
+        // Observe the window size changes
+        resizeObserver.observe(document.body);
+      }
+      
+      // Handle page change after navigation (with a small delay to ensure DOM is ready)
+      setTimeout(() => {
+        window.gradientManager.handlePageChange();
+      }, 100);
+    });
+    
+    // If the page is already loaded, initialize immediately
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      console.log("Page already loaded, initializing gradient immediately");
+      const canvas = document.getElementById('gradient-canvas');
+      if (canvas && !gradient) {
+        gradient = new Gradient() as unknown as GradientType;
+        gradient = addUpdateColorsToGradient(gradient);
+        if (gradient) {
+          gradient.initGradient('#gradient-canvas');
+        }
+        
+        // Set the gradient in the manager
+        window.gradientManager.gradient = gradient;
+        window.gradientManager.initialize();
+      }
+    }
+  }
+
+  // Add type definition for global window object
+  declare global {
+    interface Window {
+      gradientManager: any;
+      myGradientInstance: any;
+      cycleGradientSet: () => void;
+      randomizeGradient: () => void;
+    }
+  }
+</script>

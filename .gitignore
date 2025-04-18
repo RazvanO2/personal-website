@@ -1,6 +1,9 @@
 # build output
 dist/
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 # generated types
 .astro/
 
@@ -13,6 +16,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 # environment variables
 .env
 .env.production
