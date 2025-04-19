@@ -1,0 +1,35 @@
+name: Deploy Website
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build website
+        run: npm run build
+        
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: 'just-a-placeholder-value'
+          
+      - name: Add host to known_hosts
+        run: ssh-keyscan -p 25566 -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+        
+      - name: Deploy with rsync
+        run: rsync -avz -e "ssh -p 25566" --delete dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
