@@ -20,6 +20,8 @@ jobs:
         run: npm install
       - name: Playwright install
         run: npx playwright install
+      - name: Install rsync
+        run: apt-get install -y rsync
       - name: Build website
         run: npm run build
         
