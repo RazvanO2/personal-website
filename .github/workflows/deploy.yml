@@ -35,4 +35,4 @@ jobs:
       - name: Install rsync
         run: sudo apt-get update && sudo apt-get install -y rsync
       - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p ${{ secrets.DEPLOY_PORT }}" --delete dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
+        run: sudo rsync -avz -e "ssh -p ${{ secrets.DEPLOY_PORT }}" --delete dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
