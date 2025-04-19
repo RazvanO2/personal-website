@@ -11,10 +11,12 @@ interface Props {
   pageTitle?: string;
   enableRecaptcha?: boolean;
   enableEmailJS?: boolean;
+  pageDescription?: string;
 }
 
 const {
-  pageTitle = "Răzvan Olariu",
+  pageTitle = "Răzvan Olariu | ZVIX",
+  pageDescription = SITE_DESCRIPTION,
   enableRecaptcha = false,
   enableEmailJS = false,
 } = Astro.props;
@@ -22,12 +24,14 @@ const {
 // Check if current page is a blog post
 const isBlogPage = Astro.url.pathname.includes("/blog/");
 const bodyClass = isBlogPage ? "blog-article" : "";
+const hasDescription = pageDescription ? pageDescription : SITE_DESCRIPTION;
+const hasTitle = pageTitle ? pageTitle : "Răzvan Olariu | ZVIX";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={pageTitle} description={SITE_DESCRIPTION} />
+    <BaseHead title={pageTitle} description={hasDescription} />
     <ClientRouter />
 
     {/* Load reCAPTCHA if enabled */}
