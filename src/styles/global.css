@@ -6,15 +6,26 @@
 @import "tailwindcss";
 
 html {
-    background-color: #080808;
-    font-family: 'Inter', sans-serif;
+	background-color: #080808;
 }
 
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400;
+	src: url('/fonts/Inter-Regular.woff2') format('woff2'),
+		url('/fonts/Inter-Regular.woff') format('woff');
+	font-display: swap;
+
+
+}
 :root {
+	
 	--gradient-color-1: #474747;
 	--gradient-color-2: #373737;
 	--gradient-color-3: #272727;
 	--gradient-color-4: #171717;
+	
 }
 @media (min-width: 1024px) {
 	.lg\:fixed {
