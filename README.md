@@ -1,68 +1,147 @@
-# Astro Starter Kit: Blog
+# ZVIX - Personal Website
 
-```sh
-npm create astro@latest -- --template blog
+![ZVIX Website Screenshot]()
+
+## Overview
+
+A modern, responsive personal website built with Astro.js and TailwindCSS, featuring a dynamic gradient background, interactive UI components, and a blog. This site serves as my digital portfolio and platform for sharing insights on technology, finance, and personal projects.
+
+## Features
+
+- **Responsive Design** - Optimized for mobile, tablet, and desktop viewing
+- **Interactive Gradient Background** - WebGL-powered animated gradient with customizable themes
+- **Dark Mode Optimized** - Designed for comfortable viewing in low-light environments
+- **Blog Platform** - Markdown/MDX support with code highlighting and mermaid diagram integration
+- **Project Showcase** - Highlighting personal and professional projects with detailed descriptions
+- **Performance Focused** - Fast load times and smooth interactions
+
+## Technologies
+
+- **[Astro.js](https://astro.build/)** - The core framework providing fast static site generation and hybrid rendering
+- **[TailwindCSS](https://tailwindcss.com/)** - Utility-first CSS framework for rapid UI development
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript for more reliable code
+- **[WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API)** - For the animated gradient background effects
+- **[MDX](https://mdxjs.com/)** - Extended markdown for interactive blog content
+- **[View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API)** - For smooth page transitions
+
+## Project Structure
+
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/blog)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/blog/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![blog](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
+zvix-website/
+├── public/           # Static assets (images, fonts)
 ├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+│   ├── components/   # Reusable UI components
+│   │   ├── about/    # About page components
+│   │   ├── projects/ # Project showcase components
+│   │   └── ui/       # Core UI components and gradient effects
+│   ├── content/      # Blog posts and other content (MDX)
+│   ├── layouts/      # Page layout templates
+│   ├── pages/        # Astro page components
+│   ├── scripts/      # JavaScript utilities
+│   └── styles/       # Global styles
+├── astro.config.mjs  # Astro configuration
+└── tailwind.config.js # TailwindCSS configuration
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Getting Started
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### Prerequisites
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+- Node.js (v18 or later recommended)
+- npm or yarn
 
-Any static assets, like images, can be placed in the `public/` directory.
+### Installation
 
-## 🧞 Commands
+1. Clone the repository
 
-All commands are run from the root of the project, from a terminal:
+```bash
+git clone https://github.com/RazvanO2/zvix-website.git
+cd zvix-website
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+2. Install dependencies
 
-## 👀 Want to learn more?
+```bash
+npm install
+# or
+yarn install
+```
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+3. Start the development server
 
-## Credit
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+4. Open your browser and navigate to <http://localhost:4321>
+
+### Building for Production
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+The built files will be in the `dist/` directory.
+
+## Customization
+
+### Gradient Themes
+
+The interactive background gradient can be customized by modifying the gradient sets in `src/components/ui/Gradient/GradientCanvas.astro`. New color schemes can be added to the `gradientSets` array.
+
+### Blog Posts
+
+Add new blog posts by creating Markdown or MDX files in the `src/content/blog/` directory. Each post should include frontmatter with metadata:
+
+```markdown
+---
+title: 'Your Post Title'
+description: 'Brief description of your post.'
+tags: ['tag1', 'tag2']
+pubDate: 'Apr 18 2024'
+heroImage: '/blog-posts/your-post/hero.jpg'
+---
+
+Your content here...
+```
+
+### Projects
+
+Add or edit projects by modifying the `src/pages/projects.astro` file.
+
+## Performance
+
+The website is built with performance in mind, utilizing:
+
+- Static site generation for fast initial load
+- Minimal JavaScript where possible
+- Optimized assets and lazy loading
+- Efficient animations using hardware acceleration
+
+## Browser Support
+
+The website is compatible with all modern browsers:
+
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+
+Some advanced features like the gradient animations may have reduced functionality in older browsers.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Gradient animation inspired by [Stripe's WebGL Gradient Animation](https://kevinhufnagl.com)
+- Icons from [Lucide](https://lucide.dev/)
+- Fonts from [Google Fonts](https://fonts.google.com/)
+
+---
+
+© 2024 Răzvan Olariu. All rights reserved.
