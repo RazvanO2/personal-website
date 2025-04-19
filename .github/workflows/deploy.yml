@@ -31,6 +31,7 @@ jobs:
           
       - name: Add host to known_hosts
         run: ssh-keyscan -p ${{ secrets.DEPLOY_PORT }} -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
-        
+      - name: Test SSH connection
+        run: ssh -v -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} exit
       - name: Deploy with rsync
-        run: /usr/bin/rsync -avz -e "ssh -p ${{ secrets.DEPLOY_PORT }}" --delete dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
+        run: /usr/bin/rsync -avz -e "ssh -p ${{ secrets.DEPLOY_PORT }} -v" --delete dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
