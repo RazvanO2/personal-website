@@ -30,7 +30,7 @@ jobs:
           known_hosts: 'just-a-placeholder-value'
           
       - name: Add host to known_hosts
-        run: ssh-keyscan -p 25566 -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+        run: ssh-keyscan -p ${{ secrets.DEPLOY_PORT }} -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
         
       - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p 25566" --delete dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
+        run: rsync -avz -e "ssh -p ${{ secrets.DEPLOY_PORT }}" --delete dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
