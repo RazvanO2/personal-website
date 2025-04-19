@@ -4,7 +4,6 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 @import "tailwindcss";
-@import "mermaid-modal.css";
 html {
 	background-color: #080808;
 }
