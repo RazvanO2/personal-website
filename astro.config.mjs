@@ -1,14 +1,4 @@
 // @ts-check
-<<<<<<< HEAD
-import { defineConfig } from "astro/config";
-import tailwindcss from "@tailwindcss/vite";
-// https://astro.build/config
-export default defineConfig({
-  experimental: {},
-  vite: {
-    plugins: [tailwindcss()],
-  },
-=======
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
@@ -66,5 +56,4 @@ export default defineConfig({
     ],
     gfm: true,
   }
->>>>>>> main
 });

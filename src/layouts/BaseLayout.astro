@@ -1,18 +1,10 @@
 ---
-<<<<<<< HEAD
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import GradientCanvas from "../components/GradientCanvas.astro";
-import '../styles/global.css';
-const { pageTitle } = Astro.props;
-import { ViewTransitions } from 'astro:transitions';
-=======
 import NavBar from "../components/ui/NavBar.astro";
 import Footer from "../components/ui/Footer.astro";
 import BaseHead from "../components/ui/BaseHead.astro";
 import GradientCanvas from "../components/ui/Gradient/GradientCanvas.astro";
 import { SITE_DESCRIPTION } from "../consts";
-import { ClientRouter } from 'astro:transitions';
+import { ClientRouter } from "astro:transitions";
 
 // Accept pageTitle as a prop
 interface Props {
@@ -21,79 +13,45 @@ interface Props {
   enableEmailJS?: boolean;
 }
 
-const { 
-  pageTitle = "Răzvan Olariu", 
+const {
+  pageTitle = "Răzvan Olariu",
   enableRecaptcha = false,
-  enableEmailJS = false 
+  enableEmailJS = false,
 } = Astro.props;
 
 // Check if current page is a blog post
-const isBlogPage = Astro.url.pathname.includes('/blog/');
-const bodyClass = isBlogPage ? 'blog-article' : '';
->>>>>>> main
+const isBlogPage = Astro.url.pathname.includes("/blog/");
+const bodyClass = isBlogPage ? "blog-article" : "";
 ---
 
 <!doctype html>
 <html lang="en">
-<<<<<<< HEAD
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <link rel="icon" href="/favicon.ico" />
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-
-        
-        <title>{pageTitle}</title>
-    </head>
-    <body class="">
-        <GradientCanvas client:load/>
-        <Header />
-        <slot />
-        <Footer />
-    </body>
-
-</html>
-<style>
-    :root {
-        --gradient-color-1: #474747;
-        --gradient-color-2: #373737;
-        --gradient-color-3: #272727;
-        --gradient-color-4: #171717;
-    }
-    
-    body {
-        font-family: 'Inter', sans-serif;
-        color: #ffffff;
-    }
-    
-    .container {
-        width: 100%;
-        min-height: calc(100vh - 80px);
-    }
-</style>
-=======
   <head>
     <BaseHead title={pageTitle} description={SITE_DESCRIPTION} />
     <ClientRouter />
-    
+
     {/* Load reCAPTCHA if enabled */}
-    {enableRecaptcha && (
-      <script is:inline src="https://www.google.com/recaptcha/api.js" async defer></script>
-    )}
-    
+    {
+      enableRecaptcha && (
+        <script
+          is:inline
+          src="https://www.google.com/recaptcha/api.js"
+          async
+          defer
+        />
+      )
+    }
+
     {/* Load EmailJS if enabled */}
-    {enableEmailJS && (
-      <script is:inline src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    )}
-    
-
-
-  <body class={bodyClass}>
+    {
+      enableEmailJS && (
+        <script
+          is:inline
+          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+        />
+      )
+    }
+  </head><body class={bodyClass}>
     <GradientCanvas transition:persist />
     <main>
       <NavBar />
@@ -102,4 +60,3 @@ const bodyClass = isBlogPage ? 'blog-article' : '';
     </main>
   </body>
 </html>
->>>>>>> main
