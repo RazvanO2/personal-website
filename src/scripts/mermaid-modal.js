@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Create a button overlay
     const expandButton = document.createElement('button');
     expandButton.className = 'expand-diagram-btn';
-    expandButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg>';
+    expandButton.innerHTML = '<svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg>';
     expandButton.setAttribute('aria-label', 'Expand diagram');
     expandButton.setAttribute('title', 'Click to expand diagram');
     
