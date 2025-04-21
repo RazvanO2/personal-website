@@ -19,12 +19,10 @@ html {
 
 }
 :root {
-	
-	--gradient-color-1: #474747;
-	--gradient-color-2: #373737;
-	--gradient-color-3: #272727;
-	--gradient-color-4: #171717;
-	
+--gradient-color-1: #041E42;
+	--gradient-color-2: #003366;
+	--gradient-color-3: #004A8F;
+	--gradient-color-4: #0061B5;
 }
 @media (min-width: 1024px) {
 	.lg\:fixed {
