@@ -40,8 +40,10 @@ const platformNames = {
   instagram: "Instagram",
   facebook: "Facebook",
 };
-
-const url = `https://www.${platform}.com/${username}`;
+const url =
+  platform === "linkedin"
+    ? `https://www.${platform}.com/in/${username}`
+    : `https://www.${platform}.com/${username}`;
 ---
 
 <BaseButton
