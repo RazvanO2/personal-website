@@ -1,14 +1,14 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import FormattedDate from "../components/ui/FormattedDate.astro";
+import BaseLayout from "./BaseLayout.astro";
+import FormattedDate from "../ui/FormattedDate.astro";
 
 type Props = CollectionEntry<"blog">["data"];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<BaseLayout pageTitle={title}>
+<BaseLayout title={title} description={description} image={heroImage}>
   <div class="w-full max-w-6xl mx-auto mt-8 md:mt-16 mb-24 px-4 md:px-8">
     <!-- Hero Section -->
     <div class="mb-8 text-center">
@@ -80,7 +80,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       </a>
     </div>
   </div>
-  <script src="../scripts/mermaid-modal.js"></script>
 </BaseLayout>
 <style>
   /* Enhanced glassmorphic blog content container */

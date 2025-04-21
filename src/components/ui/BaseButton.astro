@@ -1,0 +1,152 @@
+---
+interface Props {
+  variant?: "social" | "gradient" | "default";
+  href?: string;
+  ariaLabel: string;
+  target?: "_blank" | "_self" | "_parent" | "_top";
+  rel?: string;
+  onClick?: string;
+  disabled?: boolean;
+  id?: string;
+  class?: string;
+}
+
+const {
+  variant = "default",
+  href,
+  ariaLabel,
+  target,
+  rel = href && target === "_blank" ? "noopener noreferrer" : undefined,
+  onClick,
+  disabled = false,
+  id,
+  class: className = "",
+} = Astro.props;
+
+// Determine if it's a link or button
+const isLink = !!href;
+
+// Construct class names based on variant and additional classes
+const baseClass = "base-button";
+const variantClass = `${baseClass}--${variant}`;
+const buttonClass = `${baseClass} ${variantClass} ${className}`;
+---
+
+{
+  isLink ? (
+    <a
+      href={href}
+      class={buttonClass}
+      aria-label={ariaLabel}
+      target={target}
+      rel={rel}
+      id={id}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      class={buttonClass}
+      aria-label={ariaLabel}
+      onclick={onClick}
+      disabled={disabled}
+      id={id}
+      type="button"
+    >
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  /* Base styling for all buttons */
+  .base-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: #e4e4e7;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px solid rgba(113, 113, 122, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .base-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Hover effects */
+  .base-button:hover:not(:disabled) {
+    transform: translateY(-4px);
+    background-color: rgba(39, 39, 42, 0.5);
+    border-color: rgba(161, 161, 170, 0.4);
+    color: #ffffff;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.2),
+      0 4px 6px -2px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Active effects */
+  .base-button:active:not(:disabled) {
+    transform: translateY(-2px);
+  }
+
+  /* Glow effect */
+  .base-button::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.05),
+      transparent,
+      transparent
+    );
+    border-radius: 12px;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .base-button:hover:not(:disabled)::before {
+    opacity: 1;
+  }
+
+  .base-button--social {
+    
+  }
+
+  .base-button--gradient {
+ 
+  }
+
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+</style>

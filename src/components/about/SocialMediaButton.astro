@@ -1,4 +1,6 @@
 ---
+import BaseButton from "../ui/BaseButton.astro";
+
 interface Props {
   platform:
     | "twitter"
@@ -8,9 +10,10 @@ interface Props {
     | "instagram"
     | "facebook";
   username: string;
+  class?: string;
 }
 
-const { platform, username } = Astro.props;
+const { platform, username, class: className = "" } = Astro.props;
 
 const icons = {
   twitter:
@@ -28,6 +31,7 @@ const icons = {
 };
 
 const icon = icons[platform];
+
 const platformNames = {
   twitter: "Twitter",
   github: "GitHub",
@@ -36,93 +40,39 @@ const platformNames = {
   instagram: "Instagram",
   facebook: "Facebook",
 };
+
+const url = `https://www.${platform}.com/${username}`;
 ---
 
-<a
-  href={`https://www.${platform}.com/${username}`}
-  class="social-link"
-  aria-label={`${platformNames[platform]} profile`}
+<BaseButton
+  variant="social"
+  href={url}
+  ariaLabel={`${platformNames[platform]} profile`}
   target="_blank"
   rel="noopener noreferrer"
+  class={`social-button ${className}`}
 >
   <span class="icon" set:html={icon} />
   <span class="tooltip">{platformNames[platform]}</span>
-</a>
+</BaseButton>
 
 <style>
-  .social-link {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    color: #e4e4e7;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 12px;
-    border: 1px solid rgba(113, 113, 122, 0.2);
-    backdrop-filter: blur(10px);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    overflow: hidden;
-  }
-
-  .social-link:hover {
-    transform: translateY(-4px);
-    background-color: rgba(39, 39, 42, 0.5);
-    border-color: rgba(161, 161, 170, 0.4);
-    color: #ffffff;
-    box-shadow:
-      0 10px 15px -3px rgba(0, 0, 0, 0.2),
-      0 4px 6px -2px rgba(0, 0, 0, 0.1);
-  }
-
-  .social-link:active {
-    transform: translateY(-2px);
-  }
-
+  /* Styles specific to social buttons */
   .icon {
     display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0.9;
     z-index: 1;
     filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
     transition: transform 0.2s ease;
   }
 
-  .social-link:hover .icon {
+  :global(.social-button:hover) .icon {
     transform: scale(1.1);
   }
 
-  /* Animated glow effect */
-  .social-link::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    z-index: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.05),
-      transparent,
-      transparent
-    );
-    border-radius: 12px;
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .social-link:hover::before {
-    opacity: 1;
-  }
-
-  /* Tooltip */
+  /* Tooltip styling */
   .tooltip {
     position: absolute;
     bottom: -30px;
@@ -139,9 +89,10 @@ const platformNames = {
     transition:
       opacity 0.2s ease,
       transform 0.2s ease;
+    z-index: 10;
   }
 
-  .social-link:hover .tooltip {
+  :global(.social-button:hover) .tooltip {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }

@@ -1,0 +1,32 @@
+---
+import NavBar from "./Navigation/NavBar.astro";
+import Footer from "./Footer.astro";
+import BaseHead, { SITE_DESCRIPTION } from "./BaseHead.astro";
+import GradientCanvas from "../Gradient/GradientCanvas.astro";
+import { ClientRouter } from "astro:transitions";
+
+const {
+  title,
+  description,
+  image,
+} = Astro.props;
+// Check if current page is a blog post
+const isBlogPage = Astro.url.pathname.includes("/blog/");
+const bodyClass = isBlogPage ? "blog-article" : "";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} image={image} />
+    <ClientRouter />
+  </head>
+  <body class={bodyClass}>
+    <GradientCanvas transition:persist />
+    <main>
+      <NavBar />
+      <slot />
+      <Footer />
+    </main>
+  </body>
+</html>

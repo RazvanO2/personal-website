@@ -1,5 +1,6 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+// About page - for now it will be the same as the home page
+import BaseLayout from "../components/layout/BaseLayout.astro";
 import SocialMediaButton from "../components/about/SocialMediaButton.astro";
 import ProfileColumn from "../components/about/ProfileColumn.astro";
 import ExperienceCard from "../components/about/ExperienceCard.astro";
@@ -7,8 +8,8 @@ import CourseCard from "../components/about/CourseCard.astro";
 ---
 
 <BaseLayout
-  pageTitle="About Me | Răzvan Olariu"
-  pageDescription="Learn more about me, my experience, and my skills."
+  title="About Me | Răzvan Olariu"
+  description="Learn more about me, my experience, and my skills."
 >
   <div class="max-w-7xl mx-auto min-h-screen flex flex-col lg:flex-row">
     <!-- Left column (fixed) -->

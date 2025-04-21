@@ -1,20 +1,23 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
+// Import the global.css file here so that it is included on all pages
 import "../../styles/global.css";
-import { SITE_TITLE } from "../../consts";
+
+// Site constants defined directly here to reduce the need for separate files
+export const SITE_TITLE = "Răzvan Olariu | zvix";
+export const SITE_DESCRIPTION =
+  "A website about me, my projects, and my thoughts on various topics such as programming, technology, and more.";
+export const SITE_URL = "https://zvix.ro";
+
+// Define interface for the props passed to this component
 interface Props {
   title: string;
   description: string;
   image?: string;
 }
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const {
-  title,
-  description,
-  image = "/blog-placeholder-about.jpg",
-} = Astro.props;
+const { title, description, image = "/blog-placeholder-about.jpg" } = Astro.props
 ---
 
 <!-- Global Metadata -->
@@ -30,15 +33,6 @@ const {
 />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
-<!-- <link
-  rel="preload"
-  href="/fonts/InterVariable.woff2"
-  as="font"
-  type="font/woff2"
-  crossorigin="anonymous"
-/> -->
-<!-- <link rel="stylesheet" href="/src/styles/mermaid-modal.css" /> -->
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
@@ -60,5 +54,3 @@ const {
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
-
-<!-- <base href="https://zvix.ro/" target="_blank" /> -->

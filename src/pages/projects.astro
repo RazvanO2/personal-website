@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from "../components/layout/BaseLayout.astro";
 import ProjectCard from "../components/projects/ProjectCard.astro";
 
 import PersonalWebsite from "../assets/projects/personal_website.png";
@@ -9,7 +9,10 @@ import weatherAppImage from "../assets/projects/weather.png";
 import homelab from "../assets/projects/homelab.jpg";
 ---
 
-<BaseLayout pageTitle="Projects | Răzvan Olariu">
+<BaseLayout
+  title="Projects | Răzvan Olariu"
+  description="Explore my projects, showcasing my skills in programming, data science, and web development."
+>
   <div class="w-full max-w-6xl mx-auto mt-16 mb-24 px-4 md:px-8">
     <div class="flex flex-col gap-2 mb-12 text-center">
       <h1

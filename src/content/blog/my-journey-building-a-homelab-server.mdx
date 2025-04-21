@@ -5,7 +5,6 @@ tags: ['homelab', 'server', 'DIY', 'technology', 'proxmox', 'truenas', 'nginx']
 pubDate: 'Apr 18 2024'
 heroImage: '/blog-posts/my-journey-building-a-homelab-server/0.jpg'
 ---
-import ExpandableDiagram from '../../components/ExpandableDiagram.astro'
 
 ## Preface: Why I Needed a Homelab
 
@@ -201,8 +200,8 @@ I also set up CNAME records to make managing these entries simpler. By pointing 
 ## Diagram for My Homelab Setup
 
 To help visualize how all these components interact, here's a diagram of my homelab setup:
-<ExpandableDiagram>
-```mermaid
+
+{/* ```mermaid
 %%{init: {'theme': 'dark'}}%%
 graph TD
     subgraph Internet
@@ -290,8 +289,8 @@ graph TD
     class FW,CF,PVE network
     class PC,TV,HOME_IOT localClient
     class REMOTE_LAPTOP,REMOTE_PHONE,REMOTE_TABLET remoteClient
-```
-</ExpandableDiagram>
+``` */}
+
 This diagram illustrates how everything connects in my homelab environment. The Proxmox host runs several virtual machines, including TrueNAS SCALE which hosts most of my applications as containers. Nginx Proxy Manager handles all the routing based on domain names, and Pi-hole provides local DNS resolution and ad blocking. WireGuard enables secure remote access to my internal services when I'm away from home.
 
 ## Final Thoughts
