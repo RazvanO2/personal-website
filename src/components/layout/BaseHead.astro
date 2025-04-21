@@ -1,14 +1,15 @@
 ---
-// Import the global.css file here so that it is included on all pages
+// Import the global.css file here so that it is included on all pages through the use of the <BaseHead /> component.
 import "../../styles/global.css";
+import { SITE_TITLE, SITE_DESCRIPTION, DEBUG_MODE } from "../../consts";
 
-// Site constants defined directly here to reduce the need for separate files
-export const SITE_TITLE = "Răzvan Olariu | zvix";
-export const SITE_DESCRIPTION =
-  "A website about me, my projects, and my thoughts on various topics such as programming, technology, and more.";
-export const SITE_URL = "https://zvix.ro";
+// Debug logging helper
+function debug(message: string) {
+  if (DEBUG_MODE) {
+    console.log(`[BaseHead] ${message}`);
+  }
+}
 
-// Define interface for the props passed to this component
 interface Props {
   title: string;
   description: string;
@@ -17,7 +18,13 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = "/blog-placeholder-about.jpg" } = Astro.props
+const {
+  title,
+  description,
+  image = "/blog-placeholder-about.jpg",
+} = Astro.props;
+
+debug(`Rendering BaseHead for: ${title}`);
 ---
 
 <!-- Global Metadata -->

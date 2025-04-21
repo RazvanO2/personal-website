@@ -17,13 +17,18 @@ const { className = "" } = Astro.props;
     padding: 1.5rem;
     border-radius: 1.5rem;
     border: 1px solid rgba(82, 82, 91, 0.1);
-    transition: transform 0.4s ease, background-color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
+    transition:
+      transform 0.4s ease,
+      background-color 0.4s ease,
+      border 0.4s ease,
+      box-shadow 0.4s ease;
     overflow: hidden;
     backdrop-filter: blur(10px);
   }
-  
-  .hover-card::before, .hover-card::after {
-    content: '';
+
+  .hover-card::before,
+  .hover-card::after {
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: 1.5rem;
@@ -32,7 +37,7 @@ const { className = "" } = Astro.props;
     transition: opacity 0.4s ease;
     opacity: 0;
   }
-  
+
   /* Subtle gradient following cursor */
   .hover-card::before {
     background: radial-gradient(
@@ -41,10 +46,10 @@ const { className = "" } = Astro.props;
       transparent 60%
     );
   }
-  
+
   /* Border glow effect */
   .hover-card::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: -1px;
     border-radius: 1.5rem;
@@ -55,15 +60,15 @@ const { className = "" } = Astro.props;
       rgba(113, 113, 122, 0.1),
       rgba(82, 82, 91, 0.3)
     );
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0;
     transition: opacity 0.4s ease;
   }
-  
+
   .hover-card:hover {
     background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
@@ -71,15 +76,15 @@ const { className = "" } = Astro.props;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     border-color: rgba(113, 113, 122, 0.3);
   }
-  
+
   .hover-card:hover::before {
     opacity: 1;
   }
-  
+
   .hover-card:hover::after {
     opacity: 1;
   }
-  
+
   .hover-card > * {
     position: relative;
     z-index: 2;
@@ -101,7 +106,7 @@ const { className = "" } = Astro.props;
   .project-link:hover {
     opacity: 0.9;
     background-color: rgba(113, 113, 122, 0.15);
-    text-shadow: 0 0 1px rgba(255, 255, 255, 0.10);
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
     /* transform: translateY(-2px); */
   }
 
@@ -113,36 +118,38 @@ const { className = "" } = Astro.props;
 <script>
   // Mouse tracking code that properly works with Astro's view transitions
   function setupHoverCards() {
-    const cards = document.querySelectorAll('.hover-card');
-    
+    const cards = document.querySelectorAll(".hover-card");
+
     cards.forEach((card) => {
       // Cast card to HTMLElement explicitly
       const cardElement = card as HTMLElement;
-      
+
       // Now add event listeners using the properly typed element
-      cardElement.addEventListener('mousemove', (e: MouseEvent) => {
+      cardElement.addEventListener("mousemove", (e: MouseEvent) => {
         const rect = cardElement.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
         const y = ((e.clientY - rect.top) / rect.height) * 100;
-        
-        cardElement.style.setProperty('--mouse-x', `${x}%`);
-        cardElement.style.setProperty('--mouse-y', `${y}%`);
+
+        cardElement.style.setProperty("--mouse-x", `${x}%`);
+        cardElement.style.setProperty("--mouse-y", `${y}%`);
       });
-      
-      cardElement.addEventListener('mouseleave', () => {
+
+      cardElement.addEventListener("mouseleave", () => {
         const currentTransform = getComputedStyle(cardElement).transform;
-        cardElement.style.transition = 'all 0.6s cubic-bezier(0.19, 1, 0.22, 1)';
-        
+        cardElement.style.transition =
+          "all 0.6s cubic-bezier(0.19, 1, 0.22, 1)";
+
         setTimeout(() => {
-          cardElement.style.transition = 'transform 0.4s ease, background-color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease';
+          cardElement.style.transition =
+            "transform 0.4s ease, background-color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease";
         }, 600);
       });
     });
   }
 
   // Run for initial page load
-  document.addEventListener('DOMContentLoaded', setupHoverCards);
-  
+  document.addEventListener("DOMContentLoaded", setupHoverCards);
+
   // Run again after each navigation when using view transitions
-  document.addEventListener('astro:page-load', setupHoverCards);
+  document.addEventListener("astro:page-load", setupHoverCards);
 </script>
