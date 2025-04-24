@@ -59,6 +59,15 @@ import homelab from "../assets/projects/homelab.jpg";
         imageUrl={homelab}
       />
       <ProjectCard
+        title="A Barber E-Commerce Website - Fullstack Application"
+        description="Developed a Java Spring Boot e-commerce backend with user management, product catalog, and order processing capabilities. Implemented secure authentication using Spring Security with role-based access control. Created RESTful APIs for product management with filtering, searching, and pagination. Built a complete order workflow system with status tracking and inventory management. The frontend is built with HTML/CSS/JS, and provides both customer shopping experience and admin dashboard functionality."
+        technologies={["Java", "Spring Boot", "Spring Security", "HTML/CSS/JS"]}
+        liveLink="#"
+        sourceLink="#"
+        isDataScienceProject={false}
+      />
+
+      <ProjectCard
         title="Electricity Usage Forecasting"
         description="Implemented a machine learning project to predict household electricity usage using time series data. Created multiple imputation methods for missing values, including mean, KNN, and MICE, with MICE providing best results. Developed feature engineering pipeline with lag features for time series prediction. Evaluated multiple regression models (Linear, Random Forest, XGBoost, LightGBM) with LightGBM performing best. Used Optuna for hyperparameter tuning to optimize model performance. Achieved 92% R-squared and RMSE of 0.178, demonstrating strong predictive accuracy. Generated confidence intervals for predictions and visualized model performance with error analysis."
         technologies={[
@@ -73,13 +82,14 @@ import homelab from "../assets/projects/homelab.jpg";
       />
 
       <ProjectCard
-        title="WeatherNow App"
-        description="A responsive weather application with beautiful visualizations and 7-day forecasts. Features dark mode, location detection, and hourly predictions with detailed atmospheric conditions tracking."
+        title="WeatherNow App - iOS Application"
+        description=""
         technologies={[
-          "JavaScript",
-          "Chart.js",
+          "Swift",
+          "SwiftUI",
+          "CoreLocation",
+          "MVC Architecture",
           "OpenWeather API",
-          "Geolocation",
         ]}
         liveLink="#"
         sourceLink="https://github.com/RazvanO2/weatherNow"
