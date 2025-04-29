@@ -197,9 +197,9 @@ In the Pi-hole admin interface, I added DNS records pointing my subdomains (like
 
 I also set up CNAME records to make managing these entries simpler. By pointing all my service subdomains to my main domain as a CNAME record, I only needed to update one record if my server's IP changed.
 
-## Diagram for My Homelab Setup
+{/* ## Diagram for My Homelab Setup
 
-To help visualize how all these components interact, here's a diagram of my homelab setup:
+To help visualize how all these components interact, here's a diagram of my homelab setup: */}
 
 {/* ```mermaid
 %%{init: {'theme': 'dark'}}%%
@@ -290,8 +290,8 @@ graph TD
     class PC,TV,HOME_IOT localClient
     class REMOTE_LAPTOP,REMOTE_PHONE,REMOTE_TABLET remoteClient
 ``` */}
-
-This diagram illustrates how everything connects in my homelab environment. The Proxmox host runs several virtual machines, including TrueNAS SCALE which hosts most of my applications as containers. Nginx Proxy Manager handles all the routing based on domain names, and Pi-hole provides local DNS resolution and ad blocking. WireGuard enables secure remote access to my internal services when I'm away from home.
+{/* 
+This diagram illustrates how everything connects in my homelab environment. The Proxmox host runs several virtual machines, including TrueNAS SCALE which hosts most of my applications as containers. Nginx Proxy Manager handles all the routing based on domain names, and Pi-hole provides local DNS resolution and ad blocking. WireGuard enables secure remote access to my internal services when I'm away from home. */}
 
 ## Final Thoughts
 
