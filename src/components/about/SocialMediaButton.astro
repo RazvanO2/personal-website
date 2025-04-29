@@ -54,7 +54,7 @@ const url =
   rel="noopener noreferrer"
   class={`social-button ${className}`}
 >
-  <span class="icon" set:html={icon} />
+  <span class="icon" slot="icon" set:html={icon} />
   <span class="tooltip">{platformNames[platform]}</span>
 </BaseButton>
 

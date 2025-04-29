@@ -2,7 +2,12 @@
 import portraitImage from "../../assets/Portrait.jpg";
 import { Image } from "astro:assets";
 import GradientButton from "../gradient/GradientButton.astro";
-const { name, nickname } = Astro.props;
+import ResumeButton from "./DownloadResumeButton.astro";
+const {
+  name,
+  nickname,
+  resumePath = "resume/Olariu-Razvan-resume-v2.pdf",
+} = Astro.props;
 ---
 
 <div
@@ -24,14 +29,16 @@ const { name, nickname } = Astro.props;
         {name}
       </h1>
     </div>
-    <h2 class="text-[#C1C1C1] text-4xl mt-1 mb-2 opacity-50">{nickname}</h2>
+    <h2 class="text-[#C1C1C1] text-4xl mt-1 mb-6 opacity-50">{nickname}</h2>
 
-    <div class="social-links flex gap-3 w-72 justify-start mt-2">
+    <!-- Social links -->
+    <div class="social-links flex gap-3 justify-start mb-8">
       <slot />
     </div>
 
-    <!-- Gradient theme buttons -->
-    <div class="gradient-controls mt-8">
+    <!-- Controls container with horizontal layout -->
+    <div class="action-buttons flex space-x-5">
+      <ResumeButton pdfPath={resumePath} text="Download Resume" />
       <GradientButton />
     </div>
   </div>

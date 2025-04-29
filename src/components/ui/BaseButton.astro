@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant?: "social" | "gradient" | "default";
+  variant?: "social" | "gradient" | "default" | "download";
   href?: string;
   ariaLabel: string;
   target?: "_blank" | "_self" | "_parent" | "_top";
@@ -9,6 +9,7 @@ interface Props {
   disabled?: boolean;
   id?: string;
   class?: string;
+  showLabel?: boolean;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   disabled = false,
   id,
   class: className = "",
+  showLabel = false,
 } = Astro.props;
 
 // Determine if it's a link or button
@@ -29,7 +31,8 @@ const isLink = !!href;
 // Construct class names based on variant and additional classes
 const baseClass = "base-button";
 const variantClass = `${baseClass}--${variant}`;
-const buttonClass = `${baseClass} ${variantClass} ${className}`;
+const labelClass = showLabel ? `${baseClass}--with-label` : "";
+const buttonClass = `${baseClass} ${variantClass} ${labelClass} ${className}`;
 ---
 
 {
@@ -42,7 +45,14 @@ const buttonClass = `${baseClass} ${variantClass} ${className}`;
       rel={rel}
       id={id}
     >
-      <slot />
+      <slot name="icon" />
+      {showLabel ? (
+        <span class="button-label">
+          <slot />
+        </span>
+      ) : (
+        <slot />
+      )}
     </a>
   ) : (
     <button
@@ -53,7 +63,14 @@ const buttonClass = `${baseClass} ${variantClass} ${className}`;
       id={id}
       type="button"
     >
-      <slot />
+      <slot name="icon" />
+      {showLabel ? (
+        <span class="button-label">
+          <slot />
+        </span>
+      ) : (
+        <slot />
+      )}
     </button>
   )
 }
@@ -78,6 +95,19 @@ const buttonClass = `${baseClass} ${variantClass} ${className}`;
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
     overflow: hidden;
     cursor: pointer;
+  }
+
+  /* Button with label */
+  .base-button--with-label {
+    width: auto;
+    padding: 0 20px;
+  }
+
+  .button-label {
+    margin-left: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
   }
 
   .base-button:disabled {
@@ -132,6 +162,16 @@ const buttonClass = `${baseClass} ${variantClass} ${className}`;
   }
 
   .base-button--gradient {
+  }
+
+  .base-button--download {
+    background-color: rgba(0, 112, 243, 0.15);
+    border-color: rgba(0, 112, 243, 0.3);
+  }
+
+  .base-button--download:hover:not(:disabled) {
+    background-color: rgba(0, 112, 243, 0.25);
+    border-color: rgba(0, 112, 243, 0.5);
   }
 
   @keyframes spin {

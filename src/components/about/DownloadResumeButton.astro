@@ -1,0 +1,85 @@
+---
+import BaseButton from "../ui/BaseButton.astro";
+
+interface Props {
+  pdfPath: string;
+  text?: string;
+  class?: string;
+}
+
+const {
+  pdfPath,
+  text = "View Resume",
+  class: className = "",
+} = Astro.props;
+
+// Download icon SVG
+const downloadIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`;
+---
+
+<BaseButton
+  variant="social"
+  href={pdfPath}
+  ariaLabel="View Resume"
+  target="_blank"
+  rel="noopener noreferrer"
+  showLabel={true}
+  class={`resume-button ${className}`}
+>
+  <span class="icon" slot="icon" set:html={downloadIcon} />
+  {text}
+  <span class="tooltip">Download</span>
+</BaseButton>
+
+<style>
+  /* Styles specific to resume button */
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+    z-index: 1;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+    transition: transform 0.2s ease;
+  }
+
+  :global(.resume-button:hover) .icon {
+    transform: translateY(2px);
+    animation: bounce 0.6s ease infinite;
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(2px);
+    }
+  }
+
+  /* Tooltip styling - same as other buttons */
+  .tooltip {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+    z-index: 10;
+  }
+
+  :global(.resume-button:hover) .tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
