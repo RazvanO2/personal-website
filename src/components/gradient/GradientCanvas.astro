@@ -258,7 +258,7 @@ import { ClientRouter } from "astro:transitions";
         document.body.classList.contains("blog-article") ||
         window.location.pathname.includes("/blog/");
 
-      console.log("Handling page change, isBlogArticle:", isBlogArticle);
+      // console.log("Handling page change, isBlogArticle:", isBlogArticle);
 
       if (isBlogArticle) {
         // Save current set before transitioning to blog mode
@@ -353,7 +353,7 @@ import { ClientRouter } from "astro:transitions";
     }
 
     transitionTo(targetSet: any) {
-      console.log("Transitioning to:", targetSet);
+      // console.log("Transitioning to:", targetSet);
 
       // Prevent transition spam by ensuring minimum time between transitions
       const now = Date.now();
@@ -620,7 +620,7 @@ import { ClientRouter } from "astro:transitions";
 
     // Create the gradient manager on window
     if (!window.gradientManager) {
-      console.log("Creating gradientManager on window");
+      // console.log("Creating gradientManager on window");
       window.gradientManager = new GradientManager();
     }
 
@@ -637,7 +637,7 @@ import { ClientRouter } from "astro:transitions";
 
     // Initialize on page load
     document.addEventListener("DOMContentLoaded", () => {
-      console.log("GradientCanvas: DOMContentLoaded event");
+      // console.log("GradientCanvas: DOMContentLoaded event");
       const canvas = document.getElementById("gradient-canvas");
       if (!canvas) {
         console.error("Canvas element not found");

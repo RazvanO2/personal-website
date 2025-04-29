@@ -101,7 +101,7 @@ const shuffleIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="
 
   // Function to set up event listeners for the buttons
   function setupButtonListeners(): void {
-    console.log("Setting up gradient button listeners");
+    // console.log("Setting up gradient button listeners");
 
     const cycleButton = document.getElementById(
       "cycle-button"
@@ -157,7 +157,7 @@ const shuffleIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="
   // Re-attach listeners after Astro view transitions
   // Reset the flag on page load to allow re-initialization
   document.addEventListener("astro:page-load", () => {
-    console.log("Astro page load detected, re-initializing listeners.");
+    // console.log("Astro page load detected, re-initializing listeners.");
     listenersInitialized = false; // Reset flag
     initializeIfNeeded(); // Re-run setup
   });
