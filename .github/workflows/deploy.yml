@@ -27,7 +27,6 @@ jobs:
         with:
           key: ${{ secrets.SSH_KEY }}
           known_hosts: "just-a-placeholder-value"
-
       - name: Add host to known_hosts
         run: ssh-keyscan -p ${{ secrets.DEPLOY_PORT }} -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
       - name: Test SSH connection
